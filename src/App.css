@@ -1,0 +1,46 @@
+* {
+  /* user-select: none; */
+  transition: 0.4s all ease-in;
+}
+
+body{
+  background: #31c288;
+}
+
+nav{
+  background: #8fdbbda8;
+  box-shadow: 3px 3px 10px #31c288;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.messageInp {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 4px 0 0 4px;
+  outline: none;
+}
+
+.msgButton {
+  padding: 10px;
+  border: none;
+  background-color: #61dafb;
+  color: white;
+  cursor: pointer;
+  border-radius: 0 4px 4px 0;
+}
+
+form button:hover {
+  background-color: #21a1f1;
+}
+
+.usersend{
+  background-image: linear-gradient(rgb(112, 238, 121), rgb(165, 194, 241));
+}
+
+.sendersend{
+  background: rgb(112, 238, 121);
+}

@@ -1,0 +1,37 @@
+import React from 'react'
+import Authenticate from './Authentication/Authenticate'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import './App.css'
+import Home from './components/Home';
+
+import Login from './Authentication/Login';
+import Register from './Authentication/Register';
+import Forgot_Password from './Authentication/Forgot_Password';
+import ChatSection from './components/ChatSection';
+import ChatAI from './components/ChatAI';
+
+import socketIO from 'socket.io-client';
+import Profile from './components/Profile';
+const socket = socketIO.connect('http://localhost:4000');
+
+
+const App = () => {
+  return (
+    <div className='w-full '>
+      <Router>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/chat/:id' element={<ChatSection socket={socket}/>} />
+          <Route path='/api-auth-login-signup-forgot-password' element={<Forgot_Password />} />
+          <Route path='/ai-chat' element={<ChatAI />} />
+          <Route path='/profile' element={<Profile/>} />
+        </Routes>
+      </Router>
+    </div>
+  )
+}
+
+export default App
+
