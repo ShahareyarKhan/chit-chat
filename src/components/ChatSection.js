@@ -1,3 +1,4 @@
+
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { UserContext } from '../context/UserContext';
 import { IoMdArrowRoundBack } from "react-icons/io";
@@ -8,17 +9,18 @@ import io from 'socket.io-client';
 
 // Create a socket instance
 const socket = io('http://localhost:5000', {
-  autoConnect: false,
-  transports: ['websocket'],
+    transports: ['websocket'],
 });
 
 const ChatSection = () => {
     const { friends, user } = useContext(UserContext);
-    console.log(friends);
     const friendId = window.location.pathname.split("/")[2];
     const [friend, setFriend] = useState(null);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
+    const [isTyping, setIsTyping] = useState(false);
+    const [typingMessage, setTypingMessage] = useState('');
+    const [friendOnline, setFriendOnline] = useState(false);
     const messagesEndRef = useRef(null);
     const [scrollToBottom, setScrollToBottom] = useState(true);
 
@@ -32,34 +34,49 @@ const ChatSection = () => {
     useEffect(() => {
         if (friend) {
             fetchMessages();
+            socket.emit('setup', user);
+            socket.emit('checkOnlineStatus', friend._id);
         }
-    }, [friend]);
+    }, [friend, user]);
 
-    // useEffect(() => {
-    //     // Connect to the socket server
-    //     socket.connect();
-    
-    //     // Join the chat room
-    //     socket.emit('setup', { _id: user._id, name: user.name });
-    
-    //     // Notify that the user is typing
-    //     const handleTyping = () => {
-    //       socket.emit('typing', { senderId: user._id, receiverId: friend._id });
-    //     };
-    
-    //     // Add event listener for typing indication
-    //     socket.on('typing', () => {
-    //       console.log(`${friend.name} is typing...`);
-    //     });
-    
-    //     // Cleanup on unmount
-    //     return () => {
-    //       socket.disconnect();
-    //       socket.off('message received');
-    //       socket.off('typing');
-    //     };
-    //   }, [friend, user._id, user.name, scrollToBottom]);
-    
+    useEffect(() => {
+        socket.on('message received', (newMessage) => {
+            setMessages((prevMessages) => [...prevMessages, newMessage]);
+            if (scrollToBottom) {
+                scrollToBottomHandler();
+            }
+        });
+
+        socket.on('connection', () => {
+            console.log("connected....")
+        })
+
+        socket.on('typing', (senderId) => {
+            if (senderId === friend._id) {
+                console.log("typing....")
+                setTypingMessage(`${friend.name} is typing...`);
+            }
+        });
+
+        socket.on('stop typing', (senderId) => {
+            if (senderId === friend._id) {
+                setTypingMessage('');
+            }
+        });
+
+        socket.on('online status', (status) => {
+            if (status.friendId === friend._id) {
+                setFriendOnline(status.isOnline);
+            }
+        });
+
+        return () => {
+            socket.off('message received');
+            socket.off('typing');
+            socket.off('stop typing');
+            socket.off('online status');
+        };
+    }, [friend, scrollToBottom,]);
 
     const fetchMessages = async () => {
         try {
@@ -107,12 +124,15 @@ const ChatSection = () => {
                 if (response.ok) {
                     const data = await response.json();
                     setMessages((prevMessages) => [...prevMessages, data.message]);
-                    socket.emit('new message', data.message); // Emit new message to the server
+                    socket.emit('new message', data.message);
                     setNewMessage('');
+                    socket.emit('stop typing', { senderId: user._id, receiverId: friend._id });
+
                     if (scrollToBottom) {
                         scrollToBottomHandler();
                     }
-                } else {
+                }
+                else {
                     console.error('Failed to send message');
                 }
             } catch (error) {
@@ -143,17 +163,21 @@ const ChatSection = () => {
             lastMessageDate = messageDate;
 
             return (
-                <div key={index}>
+                <div key={index} className=''>
                     {isNewDay && (
-                        <div className="text-center text-sm bg-white p-1 rounded w-[50%] mx-auto text-gray-500 my-2">
+                        <div className="text-center text-xs bg-[#295789] text-white p-1 rounded w-[140px] mx-auto  my-2">
                             {getFormattedDate(messageDate)}
                         </div>
                     )}
-                    <div className={`mb-2 ${msg.senderId === user._id ? 'text-right ' : 'text-left'}`}>
-                        <div className={`inline-block relative p-2 border border-green-600 ${msg.senderId === user._id ? 'usersend rounded-l-lg rounded-b-lg' : 'sendersend rounded-r-lg rounded-b-lg'}`}>
-                            {msg.content}
-                            <div className='text-xs text-gray-700 bottom-0 right-0'>
-                                {format(messageDate, 'hh:mm a')}
+                    <div className={` mb-1  relative ${msg.senderId === user._id ? 'text-right ' : 'text-left'}`}>
+                        <div className={`inline-block relative p-1 px-3 text-sm  rounded-md  max-w-[50%] break-words ${msg.senderId === user._id ? ' text-black' : ' text-black '} msgg`}>
+                            <div className='text-left '>
+
+                                {msg.content}
+                                <div className={`flex m-0 items-center justify-between text-[10px] text-black `}>
+                                    {format(messageDate, 'hh:mm a')}
+
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -167,33 +191,41 @@ const ChatSection = () => {
     }
 
     return (
-        <div className="flex flex-col h-full">
-        
-            <div className="w-full sticky top-0 bg-white p-3 flex items-center z-50">
+        <div className="flex flex-col h-screen chatsection bg-[#295789]">
+            <div className="w-full sticky top-0 bg-[#295789] p-3 flex items-center z-50 text-white">
                 <div onClick={() => window.history.back()} className="cursor-pointer">
                     <IoMdArrowRoundBack className="text-2xl" />
                 </div>
-
-                <div className="ml-4 flex items-center gap-3 ">
-                    {
-                        friend.pic ? (<img src={friend.pic} className="w-[40px] h-[40px] rounded-full" />) :(<div className='text-xl w-[40px] h-[40px] rounded-full flex items-center justify-center font-bold bg-gray-400 text-black border border-black'>
+                <div className=" ml-4 flex items-center gap-3 ">
+                    {friend.pic ? (
+                        <img src={friend.pic} className="realtive w-[40px] h-[40px] rounded-full" />
+                    ) : (
+                        <div className='relative text-xl w-[40px] h-[40px] rounded-full flex items-center justify-center font-bold bg-white text-black border border-black'>
                             {friend.name[0]}
-                        </div>)
-                    }
-                    
-                    <div>
-                        <h2 className=" font-semibold">{friend.name}</h2>
-                        <h2 className='text-xs'>{friend.email}</h2>
+                        </div>
+                    )}
+                    {friendOnline ? (
+                        <div className="absolute bottom-3 w-[10px] h-[10px] bg-green-600 rounded-full border border-white"></div>
+                    ) : (
+                        <div className="absolute bottom-3 w-[10px] h-[10px] bg-gray-300 rounded-full border border-white"></div>
+                    )}
+
+
+                    <div className='flex gap-5 items-center'>
+                        <div>
+                            <h2 className="font-semibold">{friend.name}</h2>
+                            <h2 className='text-xs'>{friend.email}</h2>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div className='fixed bottom-[80px] opacity-80 right-[20px] p-2 bg-[#105c1d] text-white hover:shadow-xl z-50 rounded-full cursor-pointer' onClick={() => {
+            <div className='fixed bottom-[70px]  right-1/2 p-1 bg-[#043952] text-white hover:shadow-xl z-50 rounded-full cursor-pointer' onClick={() => {
                 setScrollToBottom(true);
                 scrollToBottomHandler();
             }}>
-                <BiSolidArrowToBottom className=' text-xl ' />
+                <BiSolidArrowToBottom className='text-xl' />
             </div>
-            <div className="flex-1 p-4 overflow-auto mb-14"
+            <div className="flex-1 px-4 p-2 overflow-auto mb-14"
                 onScroll={(e) => {
                     if (e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight) {
                         setScrollToBottom(true);
@@ -203,22 +235,45 @@ const ChatSection = () => {
                 }}>
                 {renderMessagesWithDates()}
                 <div ref={messagesEndRef} />
+                {typingMessage && (
+                    <div className='fixed bg-white  p-3 bottom-14 typing-wave text-xs rounded-full text-gray-200 flex gap-5 my-1'>
+                        <div className='typing-dot'></div>
+                        <div className='typing-dot'></div>
+                        <div className='typing-dot'></div>
+                    </div>
+                )}
             </div>
-            <div className="fixed bottom-0 bg-white w-full flex items-center gap-2 px-1">
-                <input
-                    type="text"
-                    className="w-full outline-none p-4 border rounded"
-                    placeholder="Enter Message"
-                    value={newMessage}
-                    onChange={(e) => {
-                        setNewMessage(e.target.value);
-                    }}
-                    onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                />
-                <IoSend
-                    className="text-2xl mx-2 cursor-pointer "
-                    onClick={handleSendMessage}
-                />
+            <div className="w-full p-1 fixed bottom-0 bg-[#ffffff] z-50">
+                <div className="flex items-center gap-4">
+                    <input
+                        type="text"
+                        className="flex-1 p-2 border outline-none rounded-md"
+                        placeholder="Type a message..."
+                        value={newMessage}
+                        onChange={(e) => {
+                            setNewMessage(e.target.value);
+                            socket.emit('typing', { senderId: user._id, receiverId: friend._id });
+                            if (isTyping) {
+                                clearTimeout(isTyping);
+                            }
+                            setIsTyping(setTimeout(() => {
+                                socket.emit('stop typing', { senderId: user._id, receiverId: friend._id });
+                                setIsTyping(null);
+                            }, 3000));
+                        }}
+                        onKeyPress={(e) => {
+                            if (e.key === 'Enter') {
+                                handleSendMessage();
+                            }
+                        }}
+                    />
+                    <button
+                        onClick={handleSendMessage}
+                        className="  text-white p-2 "
+                    >
+                        <IoSend className="text-2xl text-[#075E54]" />
+                    </button>
+                </div>
             </div>
         </div>
     );

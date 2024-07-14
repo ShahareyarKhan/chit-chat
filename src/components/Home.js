@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import FriendList from './FriendList'
-import Authenticate from '../Authentication/Authenticate'
 import Header from './Header'
 import BottomNavbar from './BottomNavbar'
 import { useNavigate } from 'react-router'
@@ -14,9 +13,12 @@ const Home = () => {
   })
   return (
     <div className='h-[100vh] flex flex-col  '>
-      <Header />
+      <div className='z-50'>
 
-      <div >
+      <Header />
+      </div>
+
+      <div className='z-40'>
         <FriendList />
       </div>
 

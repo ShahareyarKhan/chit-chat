@@ -1,5 +1,4 @@
 import React from 'react'
-import Authenticate from './Authentication/Authenticate'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import './App.css'
 import Home from './components/Home';
@@ -12,13 +11,14 @@ import ChatAI from './components/ChatAI';
 
 import socketIO from 'socket.io-client';
 import Profile from './components/Profile';
-const socket = socketIO.connect('http://localhost:4000');
+const socket = socketIO.connect('http://localhost:5000');
 
 
 const App = () => {
   return (
     <div className='w-full '>
       <Router>
+        
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { UserContext } from '../context/UserContext'
 import { Link } from 'react-router-dom'
 const FriendList = () => {
@@ -8,7 +8,7 @@ const FriendList = () => {
     return (
         <div className='min-h-[10px] flex flex-col gap-2 pb-24 px-5 p-5 w-full'>
             {friends.map((friend) => (
-                <Link to={`/chat/${friend._id}`} key={friend._id} className="bg-[#77ff9e] user-select-none hover:bg-[#5edcaa] hover:shadow-xl rounded text-black p-2 w-full">
+                <Link to={`/chat/${friend._id}`} key={friend._id} className="bg-[#295789] transform user-select-none cursor-pointer hover:rounded-2xl hover:shadow-xl rounded text-black p-2 w-full z-40">
                     <div className='flex gap-3 items-center'>
 
                         <div>
@@ -20,7 +20,7 @@ const FriendList = () => {
                             <div className='text-sm font-semibold'>
                                 {friend.name}
                             </div>
-                            <div className='text-xs text-gray-600'>
+                            <div className='text-xs text-gray-300'>
                                 {friend.email}
                             </div>
                         </div>
