@@ -88,7 +88,7 @@ export const UserProvider = ({ children }) => {
             await registerUser(name, email, uid, pic);
             await loginUser(email, uid);
         } catch (error) {
-            setError(error.message);
+            setError("Firebase Error"+error.message);
         } finally {
             setLoading(false);
         }
