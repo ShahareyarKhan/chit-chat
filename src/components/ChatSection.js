@@ -510,20 +510,20 @@ const ChatSection = (props) => {
                             <h2 className='text-xs'>{friend.email}</h2>
                         </div>
 
-                        
+
                     </div>
                 </div>
             </div>
-            <div className='w-full flex justify-center'>
+            <div className='w-full  flex justify-center '>
 
-            <div className='fixed bottom-[70px]   p-1 bg-[#043952] text-white hover:shadow-xl z-50 rounded-full cursor-pointer' onClick={() => {
-                setScrollToBottom(true);
-                scrollToBottomHandler();
-            }}>
-                <BiSolidArrowToBottom className='text-xl' />
-            </div>
+                <div className='fixed bottom-[70px] p-1 bg-[#000000] text-white hover:shadow-xl z-50 rounded-full cursor-pointer' onClick={() => {
+                    setScrollToBottom(true);
+                    scrollToBottomHandler();
+                }}>
+                    <BiSolidArrowToBottom className='text-xl' />
                 </div>
-            <div className="flex-1 px-4 p-2 overflow-auto mb-14"
+            </div>
+            <div className="flex-1 px-4 p-2 overflow-auto "
                 onScroll={(e) => {
                     if (e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight) {
                         setScrollToBottom(true);

@@ -32,7 +32,7 @@ const ChatAI = () => {
             setPrompt("");
         }
     };
-
+    
     const handleTyping = () => {
         if (!typing) {
             setTyping(true);
@@ -42,25 +42,25 @@ const ChatAI = () => {
             setTyping(false);
         }, 1000);
     };
-
+    
     let typingTimeout;
-
+    
     const handleDeleteMessage = (index) => {
         setChatHistory(prev => prev.filter((_, i) => i !== index));
         setChatOption({ visible: false, index: null });
     };
-
+    
     const handleDoubleClick = (index) => {
         setChatOption(prev => ({ visible: !prev.visible, index }));
     };
-
+    
     return (
         <div className="flex flex-col h-full">
             <div className="w-full sticky top-0 bg-white z-50 p-5 flex items-center">
                 <div onClick={() => window.history.back()} className="cursor-pointer">
                     <IoMdArrowRoundBack className="text-2xl" />
                 </div>
-
+    
                 <div className="ml-4 flex items-center gap-3 ">
                     <div className='text-2xl w-[50px] h-[50px] rounded-full flex items-center justify-center font-bold bg-gray-400 text-black border border-black'>
                         AI
@@ -70,19 +70,18 @@ const ChatAI = () => {
                     </div>
                 </div>
             </div>
-
+    
             <div className="flex-1 p-4 overflow-auto mb-14">
                 {chatHistory.map((msg, index) => (
-                    <div key={index} className={`mb-2 relative  w-full ${msg.sender === 'user' ? 'text-right' : 'text-left'}`} onClick={() => handleDoubleClick(index)}>
+                    <div key={index} className={`mb-2 relative w-full ${msg.sender === 'user' ? 'text-right' : 'text-left'}`} onClick={() => handleDoubleClick(index)}>
                         <div className={`inline-block p-2 max-w-[49%] rounded ${msg.sender === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-100'}`}>
                             {msg.content.split('\n').map((line, i) => (
                                 <div key={i}>{line.replace('#', '').replace('*', '')}</div>
                             ))}
                         </div>
-
-
+    
                         {chatOption.visible && chatOption.index === index && (
-                            <div className={`absolute ${msg.sender === "user" ? "left-0" : "right-0"} top-0   flex justify-center items-center h-full px-2  text-sm`}>
+                            <div className={`absolute ${msg.sender === "user" ? "left-0" : "right-0"} top-0 flex justify-center items-center h-full px-2 text-sm`}>
                                 <div onClick={() => handleDeleteMessage(chatOption.index)}><MdDelete className="text-white text-2xl" /></div>
                             </div>
                         )}
@@ -109,6 +108,8 @@ const ChatAI = () => {
             </div>
         </div>
     );
-};
+
+};    
+
 
 export default ChatAI;

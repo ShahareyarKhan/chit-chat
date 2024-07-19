@@ -63,11 +63,11 @@ const Header = () => {
                     onChange={handleSearch}
                 />
             </div>
-            <div className='px-9 mb-3 w-full'>
+            <div className='mb-3 w-full'>
                 {searchResults.length > 0 && query.trim() !== '' && (
-                    <ul className='bg-[#dbe6f000] bg-white text-black z-50 shadow-md rounded border border-[#043952] w-full'>
+                    <ul className='bg-[#dbe6f000] bg-white text-black z-50 shadow-md border border-[#043952] w-full text-sm overflow-auto'>
                         {searchResults.map((result) => (
-                            <li key={result._id} className='p-3 flex justify-between items-center hover:bg-[#043952] cursor-pointer relative'>
+                            <li key={result._id} className='p-1 flex justify-between items-center hover:bg-[#8fd8f9] cursor-pointer relative'>
                                 <div className='flex items-center gap-2'>
                                     {result.pic ? (
                                         <img src={result.pic} className='w-8 h-8 rounded-full' alt={result.name} />
@@ -75,12 +75,12 @@ const Header = () => {
                                         <div className='w-8 h-8 rounded-full flex items-center justify-center bg-gray-300'>{result.name[0]}</div>
                                     )}
                                     <div>
-                                        <div>{result.name}</div>
-                                        <div className='text-xs'>{result.email}</div>
+                                        <div className='text-xs'>{result.name}</div>
+                                        <div className='text-[10px]'>{result.email}</div>
                                     </div>
                                 </div>
                                 <div className='text-sm font-semibold'>
-                                    <IoPersonAdd className='text-xl' onClick={() => sendFriendRequest(result._id)} />
+                                    <IoPersonAdd  onClick={() => sendFriendRequest(result._id)} />
                                 </div>
                             </li>
                         ))}

@@ -16,11 +16,11 @@ const Home = () => {
   const { friendSelect, setFriendSelect } = useContext(UserContext);
   return (
     <>
-      <div className='h-[100vh] flex flex-col md:hidden'>
+      <div className='h-[100vh] flex flex-col md:hidden '>
         <div className={`${friendSelect === null ? 'block' : 'hidden'} z-50`}>
           <Header />
         </div>
-        <div className='z-40'>
+        <div className='z-40 '>
           <div className={`${friendSelect === null ? 'block' : 'hidden'}`}>
 
             <FriendList />
@@ -47,7 +47,7 @@ const Home = () => {
 
             {friendSelect !== null ?
               (<ChatSection friendId={friendSelect._id} />)
-              : <div className='flex justify-center items-center h-screen text-gray-400 text-xl font-semibold '>Welcome to Chit-Chat App</div>
+              : <div className='flex justify-center items-center h-screen text-white text-xl font-semibold '>Welcome to Chit-Chat App</div>
             }
           </div>
         </div>
