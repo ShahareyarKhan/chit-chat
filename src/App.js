@@ -12,7 +12,7 @@ import ChatAI from './components/ChatAI';
 import socketIO from 'socket.io-client';
 import Profile from './components/Profile';
 import VideoCall from './components/VideoCall';
-const socket = socketIO.connect('http://localhost:5000');
+const socket = socketIO.connect('https://chit-chat-api-lilac.vercel.app');
 
 
 const App = () => {
