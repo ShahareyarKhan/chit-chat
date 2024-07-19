@@ -21,10 +21,10 @@ const Login = () => {
     };
 
     return (
-        <div className=' w-[100%] mx-auto bg-white p-3 min-h-[100vh] flex flex-col justify-center px-9 '>
+        <div className='h-[100vh] flex items-center'>
+        <div className=' w-[100%] mx-auto bg-white p-3 min-h-screen  md:min-h-[80vh] flex flex-col justify-center px-9 max-w-[500px] relative '>
             <div onClick={() => window.history.back()} className="cursor-pointer absolute top-8">
                 <IoMdArrowRoundBack className="text-2xl" />
-
             </div>
 
             <h1 className='text-2xl font-bold text-center my-5 '>Login </h1>
@@ -66,14 +66,14 @@ const Login = () => {
                     />
                 </div>
             </form>
-            <div className='flex gap-3 items-center justify-center p-2 mt-5 cursor-pointer rounded hover:rounded-xl border border-gray-300'>
-                <div>
-                    <FcGoogle className='text-2xl' />
-                </div>
-                <div className='text-sm' onClick={async () => {
+            <div className='flex gap-3 items-center justify-center p-2 mt-5 cursor-pointer rounded hover:rounded-xl border border-gray-300' onClick={async () => {
                     await googleSignIn();
                     navigate('/');
                 }}>
+                <div>
+                    <FcGoogle className='text-2xl' />
+                </div>
+                <div className='text-sm' >
                     Login with Google
                 </div>
             </div>
@@ -87,6 +87,7 @@ const Login = () => {
                     <Link to="/register" className=' font-semibold hover:underline'>Create Account</Link>
                 </div>
             </div>
+        </div>
         </div>
     );
 };

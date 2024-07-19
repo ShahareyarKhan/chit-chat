@@ -1,34 +1,36 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { UserContext } from '../context/UserContext'
-import { Link } from 'react-router-dom'
-const FriendList = () => {
-    const { friends } = useContext(UserContext)
 
+const FriendList = () => {
+    const { friends, setFriendSelect } = useContext(UserContext)
+    const [hoveredFriend, setHoveredFriend] = useState(null)
 
     return (
-        <div className='min-h-[10px] flex flex-col gap-2 pb-24 px-5 p-5 w-full'>
+        <div className='min-h-[10px] flex flex-col gap-2 pb-24  p-2 w-full  z-10'>
             {friends.map((friend) => (
-                <Link to={`/chat/${friend._id}`} key={friend._id} className="bg-[#295789] transform user-select-none cursor-pointer hover:rounded-2xl hover:shadow-xl rounded text-black p-2 w-full z-40">
-                    <div className='flex gap-3 items-center'>
-
-                        <div>
-                            {friend.pic && <img src={friend.pic} alt="" className='w-10 h-10 rounded-full' />}
-                            {!friend.pic && <div className='w-10 h-10 rounded-full bg-white flex items-center justify-center text-2xl font-bold' >{friend.name[0].toUpperCase()}</div>}
+                <div 
+                    key={friend._id} 
+                    className={`bg-[#79cffa] border-[1px] border-cyan-300   cursor-pointer overflow-hidden hover:rounded-xl hover:shadow-xl rounded text-black p-3 w-full ${hoveredFriend && hoveredFriend !== friend ? 'opacity-80' : ''}`} 
+                    onClick={() => setFriendSelect(friend)}
+                    onMouseEnter={() => setHoveredFriend(friend)}
+                    onMouseLeave={() => setHoveredFriend(null)}
+                >
+                    <div className='flex gap-3 items-center  '>
+                        <div className=''>
+                            {friend.pic && <div className='w-10 h-10 rounded-full bg-white flex items-center justify-center text-2xl font-bold'><img src={friend.pic} alt="" className='flex items-center justify-center w-10 h-10 rounded-full' /></div>}
+                            {!friend.pic && <div className='w-10 h-10 rounded-full bg-white flex items-center justify-center text-2xl font-bold'>{friend.name[0].toUpperCase()}</div>}
                         </div>
                         <div className='flex justify-center flex-col'>
-
                             <div className='text-sm font-semibold'>
                                 {friend.name}
                             </div>
-                            <div className='text-xs text-gray-300'>
+                            <div className='text-xs'>
                                 {friend.email}
                             </div>
                         </div>
                     </div>
-                </Link>
+                </div>
             ))}
-
-
         </div>
     )
 }

@@ -9,7 +9,7 @@ import { TbMessageChatbot } from "react-icons/tb";
 const BottomNavbar = () => {
     return (
         <>
-            <nav className='fixed  bottom-0 w-full py-3 bg-[#ffffff37] text-black flex items-center text-xl justify-around'>
+            <nav className='fixed md:static bottom-0 w-full py-3 bg-[#ffffff37] text-black flex items-center md:flex-col text-xl justify-around'>
 
                 <Link to="/" className='flex flex-col gap-1 justify-center items-center cursor-pointer'>
                     <div>

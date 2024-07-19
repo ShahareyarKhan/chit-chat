@@ -11,6 +11,7 @@ import ChatAI from './components/ChatAI';
 
 import socketIO from 'socket.io-client';
 import Profile from './components/Profile';
+import VideoCall from './components/VideoCall';
 const socket = socketIO.connect('http://localhost:5000');
 
 
@@ -27,6 +28,7 @@ const App = () => {
           <Route path='/api-auth-login-signup-forgot-password' element={<Forgot_Password />} />
           <Route path='/ai-chat' element={<ChatAI />} />
           <Route path='/profile' element={<Profile/>} />
+          <Route path='/video-call' element={<VideoCall/>} />
         </Routes>
       </Router>
     </div>

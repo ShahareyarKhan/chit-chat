@@ -173,15 +173,15 @@ export const UserProvider = ({ children }) => {
                 body: JSON.stringify({ id: requestId }),
             });
             if (response.ok) {
-                console.log(request);
-                setRequest(prevRequests => prevRequests.filter(req => req._id !== requestId));
+                // console.log(request);
+                // setRequest(prevRequests => prevRequests.filter(req => req._id !== requestId));
                 await fetchFriends(user._id);
             }
         } catch (error) {
             console.log(error);
         }
     };
-
+    const[friendSelect, setFriendSelect]=useState(null);
     const searchUsers = async (query) => {
         try {
             const response = await fetch(`http://localhost:5000/api/auth/search?query=${query}`, {
@@ -200,7 +200,7 @@ export const UserProvider = ({ children }) => {
     };
 
     return (
-        <UserContext.Provider value={{ user, error, friends, loginUser, registerUser, loading, googleSignIn, fetchUserDetails, request, sendFriendRequest, searchUsers, searchResults, acceptFriendRequest }}>
+        <UserContext.Provider value={{ friendSelect, setFriendSelect, user, error, friends, loginUser, registerUser, loading, googleSignIn, fetchUserDetails, request, sendFriendRequest, searchUsers, searchResults, acceptFriendRequest }}>
             {children}
         </UserContext.Provider>
     );
