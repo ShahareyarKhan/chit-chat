@@ -47,7 +47,7 @@ const ChatSection = (props) => {
         };
     }, [user, friend._id]);
 
-    useEffect(() => {
+    // useEffect(() => {
     //     if (friend) {
     //         fetchMessages();
     //         socket.emit('setup', user);
