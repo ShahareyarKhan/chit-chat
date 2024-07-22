@@ -299,7 +299,9 @@ import { FiPhoneCall, FiVideo } from "react-icons/fi";
 // Create a socket instance
 const socket = io('https://chit-chat-api-lilac.vercel.app', {
     transports: ['websocket'],
+    secure: true
 });
+
 
 const ChatSection = (props) => {
     const { friends, user, friendSelect, setFriendSelect } = useContext(UserContext);
