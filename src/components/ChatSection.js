@@ -5,10 +5,11 @@ import { IoSend } from 'react-icons/io5';
 import { BiSolidArrowToBottom } from "react-icons/bi";
 import { format, isSameDay, subDays } from 'date-fns';
 import io from 'socket.io-client';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // Create a socket instance
-const socket = io('http://localhost:5000', {
+const socket = io('https://chit-chat-api-lilac.vercel.app', {
+
     transports: ['websocket'],
     secure: true
 });
