@@ -8,7 +8,7 @@ import io from 'socket.io-client';
 import {  useNavigate } from 'react-router-dom';
 
 // Create a socket instance
-const socket = io('https://chit-chat-api-lilac.vercel.app', {
+const socket = io('http://localhost:5000', {
     transports: ['websocket'],
     secure: true
 });
