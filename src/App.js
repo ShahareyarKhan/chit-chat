@@ -12,7 +12,7 @@ import VideoCall from './components/VideoCall';
 
 import socketIO from 'socket.io-client';
 
-const socket = socketIO.connect('https://chit-chat-api-lilac.vercel.app');
+const socket = socketIO.connect('http://localhost:5000');
 
 const App = () => {
   return (

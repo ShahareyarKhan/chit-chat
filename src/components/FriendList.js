@@ -4,9 +4,10 @@ import { UserContext } from '../context/UserContext'
 const FriendList = () => {
     const { friends, setFriendSelect } = useContext(UserContext)
     const [hoveredFriend, setHoveredFriend] = useState(null)
+    
 
     return (
-        <div className='min-h-[10px] flex flex-col gap-2 pb-24  px-5 md:px-3 w-full  z-10'>
+        <div className='min-h-[10px] flex flex-col gap-2 pb-24  px-5 md:px-3 w-full my-4  z-10'>
             {friends.map((friend) => (
                 <div 
                     key={friend._id} 

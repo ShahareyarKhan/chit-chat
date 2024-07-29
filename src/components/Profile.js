@@ -30,7 +30,7 @@ const Profile = () => {
                 <div onClick={() => window.history.back()} className="cursor-pointer absolute top-8">
                     <IoMdArrowRoundBack className="text-2xl" />
                 </div>
-                <h1 className='text-2xl  font-semibold my-5 text-center'>Profile</h1>
+                <h2 className='text-2xl  font-semibold my-5 text-center'>Profile</h2>
 
                 <div className='flex justify-center my-3 text-xl'>
                     {user.pic != "" ? (<img src={user.pic} className='rounded-full max-w-[80px]' alt="Profile" />) : (<div className='rounded-full bg-white w-10 h-10 flex items-center justify-center font-bold text-2xl'>{user.name[0]}</div>)}

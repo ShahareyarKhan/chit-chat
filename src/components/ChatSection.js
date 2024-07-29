@@ -8,16 +8,22 @@ import io from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
 
 // Create a socket instance
-const socket = io('https://chit-chat-api-lilac.vercel.app', {
-
+const socket = io('http://localhost:5000', {
     transports: ['websocket'],
-    secure: true
+    // secure: true
 });
 
+// socket.on('connect', () => {
+//     console.log('Socket connected');
+// });
+
+// socket.on('disconnect', () => {
+//     console.log('Socket disconnected');
+// });
 
 const ChatSection = (props) => {
     const { friends, user, friendSelect, setFriendSelect } = useContext(UserContext);
-    const friendId = props.friendId;
+    const friendId = friendSelect._id;
     const [friend, setFriend] = useState(null);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
@@ -85,7 +91,7 @@ const ChatSection = (props) => {
 
     const fetchMessages = async () => {
         try {
-            const response = await fetch(`https://chit-chat-api-lilac.vercel.app/api/message/${user._id}/${friend._id}`, {
+            const response = await fetch(`http://localhost:5000/api/message/${user._id}/${friendSelect._id}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `${localStorage.getItem('token')}`
@@ -118,7 +124,7 @@ const ChatSection = (props) => {
             };
 
             try {
-                const response = await fetch('https://chit-chat-api-lilac.vercel.app/api/message/send', {
+                const response = await fetch('http://localhost:5000/api/message/send', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -197,12 +203,12 @@ const ChatSection = (props) => {
 
 
     return (
-        <div className="flex flex-col h-screen w-full chatsection bg-[#295789]">
+        <div className="flex flex-col h-screen w-full chatsection bg-[#295789]" >
+            
+            
             <div className="w-full sticky top-0 bg-[#164c7b] p-3 flex items-center z-50 text-white">
-                <div onClick={() => {
-                    setFriendSelect(null);
-                }} className="cursor-pointer ">
-                    <IoMdArrowRoundBack className="text-xl md:text-2xl " />
+                <div  className="cursor-pointer " >
+                    <IoMdArrowRoundBack className="text-xl md:text-2xl " onClick={()=>{Window.history.back()}} />
                 </div>
                 <div className=" ml-4 flex items-center gap-3 w-full ">
                     {friend.pic ? (

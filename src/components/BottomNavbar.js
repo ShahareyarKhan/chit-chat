@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import { IoCall, IoChatbox } from 'react-icons/io5';
 import { FaUser } from 'react-icons/fa';
-import { GiArtificialIntelligence } from "react-icons/gi";
 import { Link } from 'react-router-dom';
 
 import { TbMessageChatbot } from "react-icons/tb";

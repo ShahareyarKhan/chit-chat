@@ -24,11 +24,16 @@ export const UserProvider = ({ children }) => {
     const [request, setRequest] = useState([]);
     const [loading, setLoading] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
-
+useEffect(() => {
+    setTimeout(() => {
+        setError(null);
+    }, 3000);
+})
+const clearError = () => setError(null);
     const loginUser = async (email, uid) => {
         setLoading(true);
         try {
-            const response = await fetch("https://chit-chat-api-lilac.vercel.app/api/auth/login", {
+            const response = await fetch("http://localhost:5000/api/auth/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -53,7 +58,7 @@ export const UserProvider = ({ children }) => {
     const registerUser = async (name, email, password, pic) => {
         setLoading(true);
         try {
-            const response = await fetch('https://chit-chat-api-lilac.vercel.app/api/auth/createuser', {
+            const response = await fetch('http://localhost:5000/api/auth/createuser', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -88,7 +93,7 @@ export const UserProvider = ({ children }) => {
             await registerUser(name, email, uid, pic);
             await loginUser(email, uid);
         } catch (error) {
-            setError("Firebase Error"+error.message);
+            setError("Firebase Error" + error.message);
         } finally {
             setLoading(false);
         }
@@ -96,7 +101,7 @@ export const UserProvider = ({ children }) => {
 
     const fetchFriends = async (userId) => {
         try {
-            const response = await fetch(`https://chit-chat-api-lilac.vercel.app/api/friend/${userId}`, {
+            const response = await fetch(`http://localhost:5000/api/friend/${userId}`, {
                 method: 'GET',
             });
             const data = await response.json();
@@ -108,7 +113,7 @@ export const UserProvider = ({ children }) => {
 
     const fetchRequest = async (userId) => {
         try {
-            const response = await fetch(`https://chit-chat-api-lilac.vercel.app/api/friend/requests/${userId}`, {
+            const response = await fetch(`http://localhost:5000/api/friend/requests/${userId}`, {
                 method: 'GET',
             });
             const data = await response.json();
@@ -123,7 +128,7 @@ export const UserProvider = ({ children }) => {
         const token = localStorage.getItem('token');
         if (token) {
             try {
-                const response = await fetch('https://chit-chat-api-lilac.vercel.app/api/auth/user', {
+                const response = await fetch('http://localhost:5000/api/auth/user', {
                     method: "GET",
                     headers: {
                         'Content-Type': 'application/json',
@@ -146,7 +151,7 @@ export const UserProvider = ({ children }) => {
 
     const sendFriendRequest = async (friendId) => {
         try {
-            const response = await fetch(`https://chit-chat-api-lilac.vercel.app/api/friend/add`, {
+            const response = await fetch(`http://localhost:5000/api/friend/add`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -165,7 +170,7 @@ export const UserProvider = ({ children }) => {
     };
     const acceptFriendRequest = async (requestId) => {
         try {
-            const response = await fetch(`https://chit-chat-api-lilac.vercel.app/api/friend/accept`, {
+            const response = await fetch(`http://localhost:5000/api/friend/accept`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -181,10 +186,10 @@ export const UserProvider = ({ children }) => {
             console.log(error);
         }
     };
-    const[friendSelect, setFriendSelect]=useState(null);
+    const [friendSelect, setFriendSelect] = useState(null);
     const searchUsers = async (query) => {
         try {
-            const response = await fetch(`https://chit-chat-api-lilac.vercel.app/api/auth/search?query=${query}`, {
+            const response = await fetch(`http://localhost:5000/api/auth/search?query=${query}`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
@@ -200,7 +205,7 @@ export const UserProvider = ({ children }) => {
     };
 
     return (
-        <UserContext.Provider value={{ friendSelect, setFriendSelect, user, error, friends, loginUser, registerUser, loading, googleSignIn, fetchUserDetails, request, sendFriendRequest, searchUsers, searchResults, acceptFriendRequest }}>
+        <UserContext.Provider value={{clearError, friendSelect, setFriendSelect, user, error, friends, loginUser, registerUser, loading, googleSignIn, fetchUserDetails, request, sendFriendRequest, searchUsers, searchResults, acceptFriendRequest }}>
             {children}
         </UserContext.Provider>
     );

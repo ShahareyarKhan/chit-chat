@@ -5,14 +5,17 @@ import { IoPersonAdd, IoNotifications, IoClose, IoSettings } from "react-icons/i
 import { TiTick } from "react-icons/ti";
 
 const Header = () => {
-    const { searchUsers, searchResults, request, sendFriendRequest, acceptFriendRequest } = useContext(UserContext);
+    const { searchUsers, searchResults, request, sendFriendRequest, acceptFriendRequest, friends, setFriendSelect } = useContext(UserContext);
     const [query, setQuery] = useState('');
     const [noti, setNoti] = useState(false);
     const [options, setOptions] = useState(false);
     const optionsRef = useRef(null);
     const notiRef = useRef(null);
+    const searchInputRef = useRef(null);
+    const [srchBox, setSrchBox] = useState(false);
 
     const handleSearch = async (e) => {
+        setSrchBox(true);
         setQuery(e.target.value);
         if (e.target.value.trim() !== '') {
             await searchUsers(e.target.value);
@@ -26,6 +29,11 @@ const Header = () => {
         if (notiRef.current && !notiRef.current.contains(event.target)) {
             setNoti(false);
         }
+        if (searchInputRef.current && !searchInputRef.current.contains(event.target)) {
+            setSrchBox(false);
+        }
+        // Close chat section if clicked outside
+        setFriendSelect(null);
     };
 
     useEffect(() => {
@@ -34,6 +42,19 @@ const Header = () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
+
+    const isFriend = (userId) => {
+        return friends.some(friend => friend._id === userId);
+    };
+
+    const handleAddFriend = async (userId) => {
+        await sendFriendRequest(userId);
+    };
+
+    const handleFriendClick = (friend) => {
+        // Open chat section for the selected friend
+        setFriendSelect(friend);
+    };
 
     return (
         <nav className='sticky top-0 shadow-md'>
@@ -50,12 +71,13 @@ const Header = () => {
                             </div>
                         )}
                     </div>
-                    <IoSettings className='text-xl'/>
-                    
+                    <IoSettings className='text-xl' />
+
                 </div>
             </div>
             <div className='w-full px-9 md:px-5 pb-4'>
                 <input
+                    ref={searchInputRef}
                     type="text"
                     className='outline-none bg-[#ffffff] w-full p-2 rounded px-2 text-black placeholder:text-gray-700'
                     placeholder='Search users...'
@@ -63,24 +85,47 @@ const Header = () => {
                     onChange={handleSearch}
                 />
             </div>
-            <div className='mb-3 w-full'>
-                {searchResults.length > 0 && query.trim() !== '' && (
-                    <ul className='bg-[#dbe6f000] bg-white text-black z-50 shadow-md border border-[#043952] w-full text-sm overflow-auto'>
+            <div className='mb-3 w-full  px-9 md:px-5 pb-4 absolute' ref={srchBox ? searchInputRef : null}>
+                {searchResults.length > 0 && query.trim() !== '' && srchBox && (
+                    <ul className='bg-[#dbe6f000] bg-white text-black z-50 shadow-md  w-full text-sm  p-3 max-h-[400px] overflow-auto'>
                         {searchResults.map((result) => (
-                            <li key={result._id} className='p-1 flex justify-between items-center hover:bg-[#8fd8f9] cursor-pointer relative'>
-                                <div className='flex items-center gap-2'>
-                                    {result.pic ? (
-                                        <img src={result.pic} className='w-8 h-8 rounded-full' alt={result.name} />
-                                    ) : (
-                                        <div className='w-8 h-8 rounded-full flex items-center justify-center bg-gray-300'>{result.name[0]}</div>
+                            <li key={result._id} className='px-3 p-2 my-2 border border-gray-400 flex justify-between items-center hover:bg-[#9cd7f3] cursor-pointer relative'>
+
+                                <div className='text-sm  w-full'>
+                                    {!isFriend(result._id) && (
+                                        <div className='flex w-full items-center justify-between gap-2'>
+                                            <div className='flex items-center gap-5 w-[70%] overflow-auto'>
+                                                {result.pic ? (
+                                                    <img src={result.pic} className='w-8 h-8 rounded-full' alt={result.name} />
+                                                ) : (
+                                                    <div className='w-8 h-8 rounded-full flex items-center justify-center bg-gray-300'>{result.name[0]}</div>
+                                                )}
+                                                <div>
+                                                    <div className='text-xs'>{result.name}</div>
+                                                    <div className='text-[10px]'>{result.email}</div>
+                                                </div>
+                                            </div>
+                                            <IoPersonAdd onClick={() => handleAddFriend(result._id)} />
+                                        </div>
                                     )}
-                                    <div>
-                                        <div className='text-xs'>{result.name}</div>
-                                        <div className='text-[10px]'>{result.email}</div>
-                                    </div>
-                                </div>
-                                <div className='text-sm font-semibold'>
-                                    <IoPersonAdd  onClick={() => sendFriendRequest(result._id)} />
+                                    {isFriend(result._id) && (
+                                        <div className='flex items-center gap-2 w-full justify-between' onClick={() => setFriendSelect(result)}>
+                                            <div className='flex items-center gap-5 w-[70%] overflow-auto'>
+                                                {result.pic ? (
+                                                    <img src={result.pic} className='w-8 h-8 rounded-full' alt={result.name} />
+                                                ) : (
+                                                    <div className='w-8 h-8 rounded-full flex items-center justify-center bg-gray-300'>{result.name[0]}</div>
+                                                )}
+                                                <div>
+                                                    <div className='text-xs'>{result.name}</div>
+                                                    <div className='text-[10px]'>{result.email}</div>
+                                                </div>
+                                            </div>
+                                            <div className='flex items-center gap-2 text-cyan-500 text-xs' >
+                                                Friends
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             </li>
                         ))}
@@ -88,7 +133,7 @@ const Header = () => {
                 )}
             </div>
             {noti && (
-                <div ref={notiRef} className='bg-blue-300 h-[80vh] w-[80%] md:w-full max-w-[450px] md:h-[100vh] overflow-auto absolute z-50 top-14 md:top-0 p-3 right-3 md:right-0'>
+                <div ref={notiRef} className='bg-white h-[80vh] w-[80%] md:w-full max-w-[450px] md:h-[100vh] overflow-auto absolute z-50 top-14 md:top-0 p-3 right-3 md:right-0'>
                     <div>
                         <IoClose className='text-2xl absolute top-3 right-3 text-gray-600' onClick={() => setNoti(false)} />
                     </div>
@@ -114,7 +159,7 @@ const Header = () => {
                     )}
                 </div>
             )}
-            
+
         </nav>
     );
 };

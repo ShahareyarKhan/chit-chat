@@ -23,7 +23,7 @@ const SearchAdd = ({Srch, setsrch}) => {
         setLoading(true);
         setError('');
         try {
-            const response = await fetch(`https://chit-chat-api-lilac.vercel.app/api/auth/search?query=${searchTerm}`, {
+            const response = await fetch(`http://localhost:5000/api/auth/search?query=${searchTerm}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

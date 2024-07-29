@@ -9,12 +9,12 @@ import { UserProvider } from './context/UserContext';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-      <GoogleOAuthProvider clientId="1009385579312-u82til7dl6osr5e1rv3v9v4hk97ff48h.apps.googleusercontent.com">
+      {/* <GoogleOAuthProvider clientId="1009385579312-u82til7dl6osr5e1rv3v9v4hk97ff48h.apps.googleusercontent.com"> */}
         <UserProvider>
 
         <App />
         </UserProvider>
-      </GoogleOAuthProvider>
+      {/* </GoogleOAuthProvider> */}
   </React.StrictMode>
 );
 
