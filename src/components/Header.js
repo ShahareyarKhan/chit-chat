@@ -33,7 +33,7 @@ const Header = () => {
             setSrchBox(false);
         }
         // Close chat section if clicked outside
-        setFriendSelect(null);
+        // setFriendSelect(null);
     };
 
     useEffect(() => {
