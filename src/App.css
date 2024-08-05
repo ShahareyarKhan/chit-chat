@@ -10,7 +10,7 @@ body{
 
 }
 .msgg{
-  background-image: linear-gradient(#74aac3, #92abc5);
+  background-image: linear-gradient(#dee4ff, #1f7ce13b);
 }
 
 .chatsection{
@@ -90,12 +90,11 @@ h1 {
 
 @keyframes wave {
   0%, 100% {
-    opacity: 1;
-    color: #2a8ffb;
+    color: #000000;
   }
   50% {
-    opacity: 0.2;
-    color: #00d9ff;
+
+    color: #100061;
   }
 }
 
@@ -164,10 +163,20 @@ h1 span:nth-child(19) {
 }
 h1 span:nth-child(20) {
   animation-delay: 1.0s;
-}
+} 
+h1 span:nth-child(21) {
+  animation-delay: 1.05s;
+} 
+h1 span:nth-child(22) {
+  animation-delay: 1.10s;
+} 
+h1 span:nth-child(23) {
+  animation-delay: 1.15s;
+} 
 
 .home{
   background-image: linear-gradient(#b3dff3, #6a99cc);
 }
+
 
 

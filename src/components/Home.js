@@ -6,9 +6,12 @@ import { useNavigate } from 'react-router';
 import { UserContext } from '../context/UserContext';
 import ChatSection from './ChatSection';
 import { TbMessageChatbot } from "react-icons/tb";
-import { IoCall, IoChatbox } from 'react-icons/io5';
+import { IoChatbox } from 'react-icons/io5';
 import { FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { IoIosChatbubbles } from "react-icons/io";
+import { HiMiniUserGroup } from "react-icons/hi2";
+import GroupChat from './GroupChat';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -19,17 +22,18 @@ const Home = () => {
     }
   }, [navigate]);
 
-  const { friendSelect, setFriendSelect } = useContext(UserContext);
+  const { friendSelect, setFriendSelect, group, setGroup, groupSelect } = useContext(UserContext);
 
   return (
     <>
       <div className='home h-[100vh] flex flex-col md:hidden'>
-        {!friendSelect && <Header />}
+        {!friendSelect && !groupSelect && <Header />}
         <div>
-          {!friendSelect && <FriendList />}
+          {!friendSelect && !groupSelect && <FriendList />}
           {friendSelect && <ChatSection />}
+          {groupSelect && <GroupChat />}
         </div>
-        {!friendSelect && <BottomNavbar />}
+        {!friendSelect && !groupSelect && <BottomNavbar />}
       </div>
 
 
@@ -43,10 +47,10 @@ const Home = () => {
             <TbMessageChatbot />
             <div className='text-xs'>AI</div>
           </Link>
-          <Link to="/call" className='flex flex-col gap-1 justify-center items-center cursor-pointer hover:bg-[#fff] p-3 lg:p-4 aspect-square'>
-            <IoCall />
-            <div className='text-xs'>Calls</div>
-          </Link>
+          <div className='flex flex-col gap-1 justify-center items-center cursor-pointer hover:bg-[#fff] p-3 lg:p-4 aspect-square' onClick={() => setGroup(!group)}>
+            <HiMiniUserGroup />
+            <div className='text-xs'>Group</div>
+          </div>
           <Link to="/profile" className='flex flex-col gap-1 justify-center items-center cursor-pointer hover:bg-[#fff] p-3 lg:p-4 aspect-square'>
             <FaUser />
             <div className='text-xs'>User</div>
@@ -59,14 +63,19 @@ const Home = () => {
           <FriendList />
         </div>
 
-
-        <div className='flex-1 bg-[#295789] w-full'>
-
-
-          {!friendSelect && <div className='flex justify-center items-center h-screen text-white text-xl font-semibold'>
-            Welcome to Chit-Chat App
+        <div className='flex-1 bg-[#3d6da1] w-full'>
+          {!friendSelect && !groupSelect && <div className='flex flex-col justify-center items-center h-screen text-white text-xl font-semibold'>
+            <div className='p-2 bg-white rounded-xl'>                        <IoIosChatbubbles className='text-4xl lg:text-5xl text-[#093d70]' />
+            </div>
+            <div className='text-center font-serif font-normal mt-4 text-black'>
+              Welcome to Chit-Chat App
+            </div>
+            <p className='font-normal text-sm text-gray-400 mt-3'>
+              Select a chat to start messaging
+            </p>
           </div>}
           {friendSelect && <ChatSection />}
+          {groupSelect && <GroupChat />}
         </div>
       </div>
     </>

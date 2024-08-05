@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import { FcGoogle } from "react-icons/fc";
 import { IoMdArrowRoundBack } from 'react-icons/io';
+import { IoIosChatbubbles } from "react-icons/io";
 
 const Register = () => {
     const [name, setName] = useState('');
@@ -27,12 +28,40 @@ const Register = () => {
     return (
 
         <div className='h-[100vh] flex items-center'>
-            <div className=' w-[100%] mx-auto bg-[#ffffffbd] p-3 min-h-screen  md:min-h-[80vh] flex flex-col justify-center px-9 max-w-[500px] relative '>
+            <div className=' w-[100%] mx-auto bg-[#ffffff] p-3 min-h-screen  md:min-h-[80vh] flex flex-col justify-center px-9 max-w-[500px] relative '>
                 <div onClick={() => window.history.back()} className="cursor-pointer absolute top-8">
                     <IoMdArrowRoundBack className="text-2xl" />
                 </div>
+                <div className=' flex justify-center '>
+                    <div className='p-2 bg-gray-300 rounded-xl'>
 
-                <h1 className='text-2xl font-bold text-center my-5 '>Register to Chit-Chat </h1>
+                        <IoIosChatbubbles className='text-3xl lg:text-4xl text-blue-800' />
+                    </div>
+                </div>
+                {/* <h1 className='text-2xl font-bold text-center my-5 '>Register to Chit-Chat </h1> */}
+                <h1 className='text-2xl font-bold text-center my-5 h1'>
+                    <span>R</span>
+                    <span>e</span>
+                    <span>g</span>
+                    <span>i</span>
+                    <span>s</span>
+                    <span>t</span>
+                    <span>e</span>
+                    <span>r</span>
+                    <span>&nbsp; </span>
+                    <span>t</span>
+                    <span>o</span>
+                    <span>&nbsp; </span>
+                    <span>C</span>
+                    <span>h</span>
+                    <span>i</span>
+                    <span>t</span>
+                    <span>-</span>
+                    <span>C</span>
+                    <span>h</span>
+                    <span>a</span>
+                    <span>t</span>
+                </h1>
 
                 <form onSubmit={handleSubmit} className='w-full flex flex-col gap-4 mt-3 p-'>
                     <div>

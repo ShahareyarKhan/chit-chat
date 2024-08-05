@@ -1,16 +1,19 @@
 import React, { useState, useContext, useRef, useEffect } from 'react';
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { UserContext } from '../context/UserContext';
-import { IoPersonAdd, IoNotifications, IoClose, IoSettings } from "react-icons/io5";
+import { IoPersonAdd, IoNotifications, IoClose } from "react-icons/io5";
 import { TiTick } from "react-icons/ti";
+import GroupModal from './GroupModal';
 
 const Header = () => {
-    const { searchUsers, searchResults, request, sendFriendRequest, acceptFriendRequest, friends, setFriendSelect } = useContext(UserContext);
+    const { searchUsers, searchResults, request, sendFriendRequest, acceptFriendRequest, friends, setFriendSelect, fetchFriends, user } = useContext(UserContext);
     const [query, setQuery] = useState('');
     const [noti, setNoti] = useState(false);
     const [options, setOptions] = useState(false);
+    const [groupModalOpen, setGroupModalOpen] = useState(false);
     const optionsRef = useRef(null);
     const notiRef = useRef(null);
+    const moreRef = useRef(null);
     const searchInputRef = useRef(null);
     const [srchBox, setSrchBox] = useState(false);
 
@@ -22,6 +25,23 @@ const Header = () => {
         }
     };
 
+    const declineFriendRequest = async (friendId) => {
+        try {
+            const response = await fetch(`http://localhost:5000/api/friend/decline`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userId: user._id, friendId: friendId }),
+            });
+            if (response.ok) {
+                await fetchFriends(user._id);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const handleClickOutside = (event) => {
         if (optionsRef.current && !optionsRef.current.contains(event.target)) {
             setOptions(false);
@@ -32,8 +52,9 @@ const Header = () => {
         if (searchInputRef.current && !searchInputRef.current.contains(event.target)) {
             setSrchBox(false);
         }
-        // Close chat section if clicked outside
-        // setFriendSelect(null);
+        if (moreRef.current && !moreRef.current.contains(event.target)) {
+            setOptions(false);
+        }
     };
 
     useEffect(() => {
@@ -43,16 +64,13 @@ const Header = () => {
         };
     }, []);
 
-    const isFriend = (userId) => {
-        return friends.some(friend => friend._id === userId);
-    };
+    const isFriend = (userId) => friends.some(friend => friend._id === userId);
 
     const handleAddFriend = async (userId) => {
         await sendFriendRequest(userId);
     };
 
     const handleFriendClick = (friend) => {
-        // Open chat section for the selected friend
         setFriendSelect(friend);
     };
 
@@ -71,8 +89,14 @@ const Header = () => {
                             </div>
                         )}
                     </div>
-                    <IoSettings className='text-xl' />
-
+                    <BsThreeDotsVertical className='text-xl' onClick={() => setOptions(!options)} />
+                    {options && (
+                        <div className='absolute right-2 bg-[#8bd8f4] text-black z-50 w-[150px] top-[60px] text-sm max-h-[400px] overflow-auto flex flex-col shadow-lg' ref={moreRef}>
+                            <div className='hover:bg-white p-3 cursor-pointer' onClick={() => setGroupModalOpen(true)}>Create Group</div>
+                            <div className='hover:bg-white p-3 cursor-pointer'>Theme</div>
+                            <div className='hover:bg-white p-3 cursor-pointer'>Settings</div>
+                        </div>
+                    )}
                 </div>
             </div>
             <div className='w-full px-9 md:px-5 pb-4'>
@@ -87,11 +111,10 @@ const Header = () => {
             </div>
             <div className='mb-3 w-full  px-9 md:px-5 pb-4 absolute' ref={srchBox ? searchInputRef : null}>
                 {searchResults.length > 0 && query.trim() !== '' && srchBox && (
-                    <ul className='bg-[#dbe6f000] bg-white text-black z-50 shadow-md  w-full text-sm  p-3 max-h-[400px] overflow-auto'>
+                    <ul className=' bg-[#8bd8f4] text-black z-50 shadow-md  w-full text-sm  p-3 max-h-[400px] overflow-auto'>
                         {searchResults.map((result) => (
-                            <li key={result._id} className='px-3 p-2 my-2 border border-gray-400 flex justify-between items-center hover:bg-[#9cd7f3] cursor-pointer relative'>
-
-                                <div className='text-sm  w-full'>
+                            <li key={result._id} className='px-3 p-2 my-2 hover:shadow-md flex justify-between items-center hover:bg-[#9cd7f3] cursor-pointer relative hover:rounded bg-cyan-300'>
+                                <div className='text-sm w-full'>
                                     {!isFriend(result._id) && (
                                         <div className='flex w-full items-center justify-between gap-2'>
                                             <div className='flex items-center gap-5 w-[70%] overflow-auto'>
@@ -121,7 +144,7 @@ const Header = () => {
                                                     <div className='text-[10px]'>{result.email}</div>
                                                 </div>
                                             </div>
-                                            <div className='flex items-center gap-2 text-cyan-500 text-xs' >
+                                            <div className='flex items-center gap-2 text-black font-semibold underline text-xs'>
                                                 Friends
                                             </div>
                                         </div>
@@ -141,7 +164,7 @@ const Header = () => {
                     <hr className='text-black border border-black my-3' />
                     {request?.pendingRequests?.length > 0 ? (
                         request.pendingRequests.map((req) => (
-                            <div key={req._id} className='flex justify-between items-center text-black'>
+                            <div key={req._id} className='flex justify-between items-center text-black p-2 hover:shadow-xl border border-gray-300'>
                                 <div className='flex items-center gap-3'>
                                     <div>
                                         <div className='font-semibold text-sm'>{req.userId.name}</div>
@@ -149,8 +172,8 @@ const Header = () => {
                                     </div>
                                 </div>
                                 <div className='text-sm font-semibold flex gap-2'>
-                                    <IoClose className='text-xl bg-red-400 w-6 h-6' />
-                                    <TiTick className='text-xl bg-green-400 w-6 h-6' onClick={() => acceptFriendRequest(req._id)} />
+                                    <IoClose className='text-xl bg-red-400 w-7 h-7' onClick={() => declineFriendRequest(req._id)} />
+                                    <TiTick className='text-xl bg-green-400 w-7 h-7 cursor-pointer' onClick={() => acceptFriendRequest(req._id)} />
                                 </div>
                             </div>
                         ))
@@ -159,7 +182,7 @@ const Header = () => {
                     )}
                 </div>
             )}
-
+            {groupModalOpen && <GroupModal onClose={() => setGroupModalOpen(false)} />}
         </nav>
     );
 };

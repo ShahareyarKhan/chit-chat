@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-
-import { IoCall, IoChatbox } from 'react-icons/io5';
+import React, { useContext, useState } from 'react';
+import { HiMiniUserGroup } from "react-icons/hi2";
+import { IoChatbox } from 'react-icons/io5';
 import { FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { UserContext } from '../context/UserContext';
 
 import { TbMessageChatbot } from "react-icons/tb";
 const BottomNavbar = () => {
+    const {group, setGroup} = useContext(UserContext);
     return (
         <>
             <nav className='fixed md:static bottom-0 w-full py-3 bg-[#ffffff37] text-black flex items-center md:flex-col text-xl justify-around'>
@@ -26,14 +28,14 @@ const BottomNavbar = () => {
                         AI
                     </div>
                 </Link>
-                <Link to="/call" className='flex flex-col gap-1 justify-center items-center cursor-pointer'>
+                <div className='flex flex-col gap-1 justify-center items-center cursor-pointer' onClick={() => setGroup(!group)}>
                     <div>
-                        <IoCall />
+                        <HiMiniUserGroup />
                     </div>
                     <div className='text-xs'>
-                        Calls
+                        Group
                     </div>
-                </Link>
+                </div>
                 <Link to="/profile" className='flex flex-col gap-1 justify-center items-center cursor-pointer'>
                     <div>
                         <FaUser />

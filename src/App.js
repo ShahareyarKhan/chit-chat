@@ -11,6 +11,7 @@ import Profile from './components/Profile';
 import VideoCall from './components/VideoCall';
 
 import socketIO from 'socket.io-client';
+import Group from './components/Group';
 
 const socket = socketIO.connect('http://localhost:5000');
 
@@ -27,6 +28,7 @@ const App = () => {
           <Route path='/ai-chat' element={<ChatAI />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/video-call' element={<VideoCall />} />
+          <Route path='/group' element={<Group/>} />
         </Routes>
       </Router>
     </div>
