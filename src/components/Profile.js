@@ -21,12 +21,12 @@ const Profile = () => {
 
     // Ensure that `user` is not null before trying to access its properties
     if (!user) {
-        return <p>Loading...</p>;  // Show a loading message or spinner
+        return <p className='text-center my-7'>Loading ...</p>;  // Show a loading message or spinner
     }
 
     return (
-        <div className='h-screen flex justify-center items-center flex-col bg-[#ffffff38]'>
-            <div className='w-[80%] max-w-[500px] mx-auto  p-8 relative bg-white rounded-lg'>
+        <div className='h-screen flex justify-center items-center flex-col bg-[#0ea6ec]'>
+            <div className='w-[90%] max-w-[500px] mx-auto  p-8 relative bg-[#b7c6e3]  rounded border-4 border-black'>
                 <div onClick={() => window.history.back()} className="cursor-pointer absolute top-8">
                     <IoMdArrowRoundBack className="text-2xl" />
                 </div>
@@ -35,23 +35,23 @@ const Profile = () => {
                 <div className='flex justify-center my-3 text-xl'>
                     {user.pic != "" ? (<img src={user.pic} className='rounded-full max-w-[80px]' alt="Profile" />) : (<div className='rounded-full bg-white w-10 h-10 flex items-center justify-center font-bold text-2xl'>{user.name[0]}</div>)}
                 </div>
-                <p className='text-center my-3  font-semibold'>{user.name}</p>
-                <p className='text-center my-3  text-sm'>Email: {user.email}</p>
-                <p className='text-center my-3  text-sm'>Total Friends: {friends.length}</p>
+                <p className='text-center my-3 md:text-xl font-semibold'>{user.name}</p>
+                <p className='text-center my-3  text-sm md:text-md'>Email: {user.email}</p>
+                <p className='text-center my-3  text-sm md:text-md'>Total Friends: {friends.length}</p>
                 <div
                     onClick={handleLogout}  // Added onClick handler
                     className='py-2 w-full  text-center inline-flex mx-auto  items-center gap-3 px-3 my-6 justify-center text-sm'
                     style={{ transition: "0.5s all linear" }}
                 >
-                    <div className=' bg-[#79daeb] rounded cursor-pointer hover:rounded-xl hover:bg-[#a4e8f4] flex items-center p-2 px-6 gap-4'>
+                    <div className=' bg-[#5cb2fd] rounded cursor-pointer hover:rounded-xl hover:bg-[#a4e8f4] flex items-center p-2 px-6 gap-4' style={{ boxShadow: "3px 4px 10px #234fff inset, -3px -4px 10px #8bc3ff inset" }}>
+                        <div>
 
-                    <div>
-
-                        Log out
-                    </div>
+                            Log out
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
     );
 }

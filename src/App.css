@@ -5,16 +5,22 @@
 
 body{
   /* background: #31c288; */
-  /* background: #4195bd; */
-  background-image: url('https://img.freepik.com/premium-vector/social-networks-dating-apps-vector-seamless-pattern_341076-469.jpg');
+  background: #4195bd;
+  /* background-image: url('https://img.freepik.com/premium-vector/social-networks-dating-apps-vector-seamless-pattern_341076-469.jpg'); */
 
 }
 .msgg{
-  background-image: linear-gradient(#dee4ff, #1f7ce13b);
+  /* background-image: linear-gradient(#dee4ff, #1f7ce13b); */
+  background: #79cffa;
+
+}
+
+input{
+  border: 0px;
 }
 
 .chatsection{
-  background-image: linear-gradient(#b3dff3, #6a99cc);
+  background: #0a2e54;
 }
 nav{
   background: #79cffa;
@@ -104,6 +110,43 @@ h1 span {
   animation: wave 2s ease-in-out infinite;
 }
 
+.profile div{
+  display: inline-block;
+  transition: 1s ease-out;
+  animation: wave1 2s ease-in-out infinite;
+}
+
+@keyframes wave1 {
+  0%, 100% {
+    transform: translate(0px, 0px);
+    background: #000;    
+  }
+  50% {
+    transform: translate(0px, -620px);
+    background: rgb(10, 78, 120);
+  }
+}
+
+.profile div:nth-child(1){
+  animation-delay: 0s;
+}
+
+.profile div:nth-child(2){
+  animation-delay: 0.2s;
+}
+
+.profile div:nth-child(3){
+  animation-delay: 0.4s;
+}
+
+.profile div:nth-child(4){
+  animation-delay: 0.6s;
+}
+
+.profile div:nth-child(5){
+  animation-delay: 0.8s;
+}
+
 h1 span:nth-child(1) {
   animation-delay: 0s;
 }
@@ -175,8 +218,10 @@ h1 span:nth-child(23) {
 } 
 
 .home{
-  background-image: linear-gradient(#b3dff3, #6a99cc);
+  background: #00587e;
 }
 
-
+.friendbox{
+  box-shadow: 3px 4px 10px #8bc3ff inset, -3px -4px 10px #2979c9 inset; 
+}
 

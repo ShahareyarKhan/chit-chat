@@ -38,7 +38,7 @@ const Home = () => {
 
 
       <div className='hidden md:flex  '>
-        <div className='bg-[#3d80a2e5] h-screen  flex flex-col gap-9 items-center justify-center '>
+        <div className='bg-[#3d80a2e5] h-screen  flex flex-col gap-9 items-center justify-center w-[10%] max-w-[50px]'>
           <Link to="/" className='flex flex-col gap-1 justify-center items-center cursor-pointer hover:bg-[#fff] p-3 lg:p-4 aspect-square'>
             <IoChatbox />
             <div className='text-xs'>Chats</div>
@@ -57,13 +57,12 @@ const Home = () => {
           </Link>
         </div>
 
-
-        <div className='h-screen overflow-auto flex flex-col bg-[#1b507b] max-w-[40%] resize-x  '>
+        <div className='h-screen overflow-auto flex flex-col bg-[#1b507b] w-[35%] min-w-[270px] max-w-[400px] resize-x  '>
           <Header />
           <FriendList />
         </div>
 
-        <div className='flex-1 bg-[#3d6da1] w-full'>
+        <div className='flex-1 bg-[#3d6da1] min-w-[57%]'>
           {!friendSelect && !groupSelect && <div className='flex flex-col justify-center items-center h-screen text-white text-xl font-semibold'>
             <div className='p-2 bg-white rounded-xl'>                        <IoIosChatbubbles className='text-4xl lg:text-5xl text-[#093d70]' />
             </div>

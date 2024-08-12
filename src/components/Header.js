@@ -111,20 +111,20 @@ const Header = () => {
             </div>
             <div className='mb-3 w-full  px-9 md:px-5 pb-4 absolute' ref={srchBox ? searchInputRef : null}>
                 {searchResults.length > 0 && query.trim() !== '' && srchBox && (
-                    <ul className=' bg-[#8bd8f4] text-black z-50 shadow-md  w-full text-sm  p-3 max-h-[400px] overflow-auto'>
+                    <ul className=' bg-[#ffffff] text-black z-50 shadow-md  w-full text-sm  p-3 max-h-[400px] overflow-auto'>
                         {searchResults.map((result) => (
-                            <li key={result._id} className='px-3 p-2 my-2 hover:shadow-md flex justify-between items-center hover:bg-[#9cd7f3] cursor-pointer relative hover:rounded bg-cyan-300'>
-                                <div className='text-sm w-full'>
+                            <li key={result._id} className='p-3 my-2 hover:shadow-md flex justify-between items-center bg-[#9cd7f3] cursor-pointer relative hover:rounded '>
+                                <div className='text-sm w-full '>
                                     {!isFriend(result._id) && (
-                                        <div className='flex w-full items-center justify-between gap-2'>
-                                            <div className='flex items-center gap-5 w-[70%] overflow-auto'>
+                                        <div className='flex  w-full items-center justify-between gap-2'>
+                                            <div className='flex items-center gap-3 w-[70%] overflow-auto'>
                                                 {result.pic ? (
                                                     <img src={result.pic} className='w-8 h-8 rounded-full' alt={result.name} />
                                                 ) : (
-                                                    <div className='w-8 h-8 rounded-full flex items-center justify-center bg-gray-300'>{result.name[0]}</div>
+                                                    <div className='w-8 h-8 rounded-full flex items-center justify-center bg-white'>{result.name[0]}</div>
                                                 )}
                                                 <div>
-                                                    <div className='text-xs'>{result.name}</div>
+                                                    <div >{result.name}</div>
                                                     <div className='text-[10px]'>{result.email}</div>
                                                 </div>
                                             </div>
