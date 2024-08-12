@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import SimplePeer from 'simple-peer';
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:5000', {
+const socket = io('https://chit-chat-api-lilac.vercel.app', {
   transports: ['websocket'],
   secure: true
 });

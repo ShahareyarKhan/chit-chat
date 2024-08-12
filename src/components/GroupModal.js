@@ -25,7 +25,7 @@ const GroupModal = ({ onClose }) => {
         }
 
         try {
-            const response = await fetch('http://localhost:5000/api/group/create', { // Adjust endpoint as needed
+            const response = await fetch('https://chit-chat-api-lilac.vercel.app/api/group/create', { // Adjust endpoint as needed
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

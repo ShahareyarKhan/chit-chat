@@ -15,7 +15,7 @@ const Forgot_Password = () => {
 
         try {
             setLoad(true);
-            const response = await fetch('http://localhost:5000/api/auth/forgotpassword', {
+            const response = await fetch('https://chit-chat-api-lilac.vercel.app/api/auth/forgotpassword', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ const Forgot_Password = () => {
     const handleResetPassword = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:5000/api/auth/resetpassword', {
+            const response = await fetch('https://chit-chat-api-lilac.vercel.app/api/auth/resetpassword', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

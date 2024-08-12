@@ -5,15 +5,17 @@ import Home from './components/Home';
 import Login from './Authentication/Login';
 import Register from './Authentication/Register';
 import Forgot_Password from './Authentication/Forgot_Password';
-import ChatSection from './components/ChatSection';
 import ChatAI from './components/ChatAI';
 import Profile from './components/Profile';
-import VideoCall from './components/VideoCall';
+import io from 'socket.io-client'; // Correct import
 
-import socketIO from 'socket.io-client';
-import Group from './components/Group';
+const socketUrl = window.location.hostname === 'localhost'
+  ? 'http://localhost:5000'
+  : 'https://chit-chat-api-lilac.vercel.app';
 
-const socket = socketIO.connect('http://localhost:5000');
+const socket = io(socketUrl, {
+  transports: ['websocket'] // No need for secure: true
+});
 
 const App = () => {
   return (
@@ -23,12 +25,9 @@ const App = () => {
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
-          <Route path='/chat/:id' element={<ChatSection socket={socket} />} />
           <Route path='/api-auth-login-signup-forgot-password' element={<Forgot_Password />} />
           <Route path='/ai-chat' element={<ChatAI />} />
           <Route path='/profile' element={<Profile />} />
-          <Route path='/video-call' element={<VideoCall />} />
-          <Route path='/group' element={<Group/>} />
         </Routes>
       </Router>
     </div>

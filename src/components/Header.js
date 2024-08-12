@@ -27,7 +27,7 @@ const Header = () => {
 
     const declineFriendRequest = async (friendId) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/friend/decline`, {
+            const response = await fetch(`https://chit-chat-api-lilac.vercel.app/api/friend/decline`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',

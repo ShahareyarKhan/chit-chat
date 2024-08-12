@@ -6,7 +6,7 @@ import { format, isSameDay, subDays } from 'date-fns';
 import io from 'socket.io-client';
 import { MdCopyAll, MdDelete } from 'react-icons/md';
 
-const socket = io('http://localhost:5000', {
+const socket = io('https://chit-chat-api-lilac.vercel.app', {
   transports: ['websocket'],
   secure: true
 });
@@ -38,7 +38,7 @@ const GroupChat = () => {
 
   const fetchMemberofGroup = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/group/${groupSelect._id}/members`, {
+      const response = await fetch(`https://chit-chat-api-lilac.vercel.app/api/group/${groupSelect._id}/members`, {
         method: 'GET'
       });
       if (response.ok) {
@@ -90,7 +90,7 @@ const GroupChat = () => {
 
   const fetchGroupMessages = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/group/${groupSelect._id}/messages`, {
+      const response = await fetch(`https://chit-chat-api-lilac.vercel.app/api/group/${groupSelect._id}/messages`, {
         method: 'GET'
       });
       if (response.ok) {
@@ -116,7 +116,7 @@ const GroupChat = () => {
       };
 
       try {
-        const response = await fetch(`http://localhost:5000/api/group/${groupSelect._id}/message`, {
+        const response = await fetch(`https://chit-chat-api-lilac.vercel.app/api/group/${groupSelect._id}/message`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -163,7 +163,7 @@ const GroupChat = () => {
     let alert = window.confirm("Are you sure you want to delete this message?");
     if (!alert) return;
     try {
-      const response = await fetch(`http://localhost:5000/api/message/delete/${messageId}`, {
+      const response = await fetch(`https://chit-chat-api-lilac.vercel.app/api/message/delete/${messageId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `${localStorage.getItem('token')}`
@@ -256,7 +256,7 @@ const GroupChat = () => {
       return;
     }
     try {
-      const response = await fetch(`http://localhost:5000/api/group/${groupSelect._id}/add-member`, {
+      const response = await fetch(`https://chit-chat-api-lilac.vercel.app/api/group/${groupSelect._id}/add-member`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

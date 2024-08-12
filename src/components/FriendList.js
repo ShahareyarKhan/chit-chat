@@ -12,7 +12,7 @@ const FriendList = () => {
       if (!user || !user._id) return;
 
       try {
-        const response = await fetch(`http://localhost:5000/api/group/${user._id}/groups`, {
+        const response = await fetch(`https://chit-chat-api-lilac.vercel.app/api/group/${user._id}/groups`, {
           method: 'GET'
         });
 
