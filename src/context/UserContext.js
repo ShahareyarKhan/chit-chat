@@ -27,6 +27,10 @@ export const UserProvider = ({ children }) => {
     const [friendSelect, setFriendSelect] = useState(null);
     const [groupSelect, setGroupSelect] = useState(null);
 
+    const url="https://chit-chat-api-lilac.vercel.app"
+
+    // const url="http://localhost:5000"
+
     useEffect(() => {
         if (user) {
             fetchFriends(user._id);
@@ -39,7 +43,7 @@ export const UserProvider = ({ children }) => {
     const loginUser = async (email, uid) => {
         setLoading(true);
         try {
-            const response = await fetch("https://chit-chat-api-lilac.vercel.app/api/auth/login", {
+            const response = await fetch(`${url}/api/auth/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -63,7 +67,7 @@ export const UserProvider = ({ children }) => {
     const registerUser = async (name, email, password, pic) => {
         setLoading(true);
         try {
-            const response = await fetch('https://chit-chat-api-lilac.vercel.app/api/auth/createuser', {
+            const response = await fetch(`${url}/api/auth/createuser`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -102,7 +106,7 @@ export const UserProvider = ({ children }) => {
 
     const fetchFriends = async (userId) => {
         try {
-            const response = await fetch(`https://chit-chat-api-lilac.vercel.app/api/friend/${userId}`);
+            const response = await fetch(`${url}/api/friend/${userId}`);
             const data = await response.json();
             setFriends(data);
         } catch (error) {
@@ -112,7 +116,7 @@ export const UserProvider = ({ children }) => {
 
     const fetchRequest = async (userId) => {
         try {
-            const response = await fetch(`https://chit-chat-api-lilac.vercel.app/api/friend/requests/${userId}`);
+            const response = await fetch(`${url}/api/friend/requests/${userId}`);
             const data = await response.json();
             setRequest(data);
         } catch (error) {
@@ -124,7 +128,7 @@ export const UserProvider = ({ children }) => {
         const token = localStorage.getItem('token');
         if (token) {
             try {
-                const response = await fetch('https://chit-chat-api-lilac.vercel.app/api/auth/user', {
+                const response = await fetch(`${url}/api/auth/user`, {
                     method: "GET",
                     headers: {
                         'Content-Type': 'application/json',
@@ -145,7 +149,7 @@ export const UserProvider = ({ children }) => {
 
     const sendFriendRequest = async (friendId) => {
         try {
-            const response = await fetch(`https://chit-chat-api-lilac.vercel.app/api/friend/add`, {
+            const response = await fetch(`${url}/api/friend/add`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
@@ -164,7 +168,7 @@ export const UserProvider = ({ children }) => {
 
     const acceptFriendRequest = async (requestId) => {
         try {
-            const response = await fetch(`https://chit-chat-api-lilac.vercel.app/api/friend/accept`, {
+            const response = await fetch(`${url}/api/friend/accept`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -183,7 +187,7 @@ export const UserProvider = ({ children }) => {
 
     const searchUsers = async (query) => {
         try {
-            const response = await fetch(`https://chit-chat-api-lilac.vercel.app/api/auth/search?query=${query}`, {
+            const response = await fetch(`${url}/api/auth/search?query=${query}`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
@@ -200,7 +204,7 @@ export const UserProvider = ({ children }) => {
     return (
         <UserContext.Provider value={{
             clearError, friendSelect, setFriendSelect, user, error, friends, loginUser, registerUser, loading, googleSignIn,
-            fetchUserDetails, request, sendFriendRequest, searchUsers, searchResults, acceptFriendRequest, group, setGroup, groupSelect, setGroupSelect
+            fetchUserDetails, request,url, sendFriendRequest, searchUsers, searchResults, acceptFriendRequest, group, setGroup, groupSelect, setGroupSelect
         }}>
             {children}
         </UserContext.Provider>

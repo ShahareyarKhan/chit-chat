@@ -6,15 +6,12 @@ import { BiSolidArrowToBottom } from "react-icons/bi";
 import { format, isSameDay, subDays } from 'date-fns';
 import io from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
-import { FaPhone } from 'react-icons/fa';
-import CallComponent from './CallComponent';
-import { IoCall } from "react-icons/io5";
-import { TiPin } from "react-icons/ti";
+// import CallComponent from './CallComponent';
 import { MdCopyAll, MdDelete, MdEdit } from "react-icons/md";
 
 
 // Create a socket instance
-const socket = io('wss://chit-chat-api-lilac.vercel.app/socket.io/?EIO=4', {
+const socket = io('http://localhost:5000', {
     transports: ['websocket'],
     secure: true
 });
@@ -28,7 +25,7 @@ socket.on('disconnect', () => {
 });
 
 const ChatSection = (props) => {
-    const { friends, user, friendSelect, setFriendSelect } = useContext(UserContext);
+    const { friends, user, friendSelect, setFriendSelect, url } = useContext(UserContext);
     const friendId = friendSelect._id;
     const [friend, setFriend] = useState(null);
     const [messages, setMessages] = useState([]);
@@ -129,7 +126,7 @@ const ChatSection = (props) => {
         if (!alert) return;
 
         try {
-            const response = await fetch(`https://chit-chat-api-lilac.vercel.app/api/message/delete/${messageId}`, {
+            const response = await fetch(`${url}/api/message/delete/${messageId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `${localStorage.getItem('token')}`
@@ -154,7 +151,7 @@ const ChatSection = (props) => {
 
     const fetchMessages = async () => {
         try {
-            const response = await fetch(`https://chit-chat-api-lilac.vercel.app/api/message/${user._id}/${friendSelect._id}`, {
+            const response = await fetch(`${url}/api/message/${user._id}/${friendSelect._id}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `${localStorage.getItem('token')}`
@@ -187,7 +184,7 @@ const ChatSection = (props) => {
             };
 
             try {
-                const response = await fetch('https://chit-chat-api-lilac.vercel.app/api/message/send', {
+                const response = await fetch(`${url}/api/message/send`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -375,9 +372,7 @@ const ChatSection = (props) => {
                     </button>
                 </div>
             </div>
-            {
-                call && <CallComponent user={user} friend={friend} />
-            }
+            
         </div>
     );
 };

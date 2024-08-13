@@ -6,7 +6,7 @@ import { TiTick } from "react-icons/ti";
 import GroupModal from './GroupModal';
 
 const Header = () => {
-    const { searchUsers, searchResults, request, sendFriendRequest, acceptFriendRequest, friends, setFriendSelect, fetchFriends, user } = useContext(UserContext);
+    const { searchUsers, searchResults, request,url, sendFriendRequest, acceptFriendRequest, friends, setFriendSelect, fetchFriends, user } = useContext(UserContext);
     const [query, setQuery] = useState('');
     const [noti, setNoti] = useState(false);
     const [options, setOptions] = useState(false);
@@ -16,6 +16,8 @@ const Header = () => {
     const moreRef = useRef(null);
     const searchInputRef = useRef(null);
     const [srchBox, setSrchBox] = useState(false);
+
+   
 
     const handleSearch = async (e) => {
         setSrchBox(true);
@@ -27,7 +29,7 @@ const Header = () => {
 
     const declineFriendRequest = async (friendId) => {
         try {
-            const response = await fetch(`https://chit-chat-api-lilac.vercel.app/api/friend/decline`, {
+            const response = await fetch(`${url}/api/friend/decline`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../context/UserContext';
 
 const FriendList = () => {
-  const { friends, setFriendSelect, setGroupSelect } = useContext(UserContext);
+  const { friends, setFriendSelect, setGroupSelect,url } = useContext(UserContext);
   const { user } = useContext(UserContext);
   const [hoveredFriend, setHoveredFriend] = useState(null);
   const [groups, setGroups] = useState([]);
@@ -12,7 +12,7 @@ const FriendList = () => {
       if (!user || !user._id) return;
 
       try {
-        const response = await fetch(`https://chit-chat-api-lilac.vercel.app/api/group/${user._id}/groups`, {
+        const response = await fetch(`${url}/api/group/${user._id}/groups`, {
           method: 'GET'
         });
 

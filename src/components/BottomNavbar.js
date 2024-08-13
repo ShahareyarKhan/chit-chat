@@ -10,7 +10,7 @@ const BottomNavbar = () => {
     const {group, setGroup} = useContext(UserContext);
     return (
         <>
-            <nav className='fixed md:static bottom-0 w-full py-3 bg-[#ffffff37] text-black flex items-center md:flex-col text-xl justify-around'>
+            <nav className='fixed md:static bottom-0 w-full py-3 bg-[#3cb8dded] text-black flex items-center md:flex-col text-xl justify-around'>
 
                 <Link to="/" className='flex flex-col gap-1 justify-center items-center cursor-pointer'>
                     <div>

@@ -9,19 +9,11 @@ import ChatAI from './components/ChatAI';
 import Profile from './components/Profile';
 import io from 'socket.io-client'; // Correct import
 
-const socketUrl = window.location.hostname === 'localhost'
-  ? 'http://localhost:5000'
-  : 'https://chit-chat-api-lilac.vercel.app';
-
-const socket = io('wss://chit-chat-api-lilac.vercel.app/socket.io/?EIO=4', {
-  transports: ['websocket'], // No need for secure: true
-  // rejectUnauthorized: false,
-  // withCredentials: true,
-  // extraHeaders: {
-  //   'my-custom-header': 'abcd'
-  // }
-
-
+// const socket = io('wss://chit-chat-api-lilac.vercel.app/socket.io/?EIO=4', {
+//   transports: ['websocket']
+// });
+const socket = io('http://localhost:5000', {
+  transports: ['websocket']
 });
 
 const App = () => {

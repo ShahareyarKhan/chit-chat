@@ -3,12 +3,12 @@ import { UserContext } from '../context/UserContext';
 import { IoClose } from 'react-icons/io5';
 
 const GroupModal = ({ onClose }) => {
-    const { friends, user } = useContext(UserContext);
+    const { friends, user , url} = useContext(UserContext);
     const [groupName, setGroupName] = useState('');
     const [selectedFriends, setSelectedFriends] = useState([]);
 
     const handleGroupNameChange = (e) => setGroupName(e.target.value);
-
+    
     const handleFriendSelect = (friendId) => {
         setSelectedFriends(prev =>
             prev.includes(friendId)
@@ -25,7 +25,7 @@ const GroupModal = ({ onClose }) => {
         }
 
         try {
-            const response = await fetch('https://chit-chat-api-lilac.vercel.app/api/group/create', { // Adjust endpoint as needed
+            const response = await fetch(`${url}/api/group/create`, { // Adjust endpoint as needed
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

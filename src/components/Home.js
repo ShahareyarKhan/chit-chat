@@ -26,7 +26,7 @@ const Home = () => {
 
   return (
     <>
-      <div className='home h-[100vh] flex flex-col md:hidden'>
+      <div className='home min-h-[100vh] flex flex-col md:hidden'>
         {!friendSelect && !groupSelect && <Header />}
         <div>
           {!friendSelect && !groupSelect && <FriendList />}
