@@ -30,12 +30,12 @@ const FriendList = () => {
   }, [user]);
 
   return (
-    <div className='min-h-[10px] flex flex-col gap-2 pb-24 px-5 md:px-3 w-full my-4 '>
+    <div className=' flex flex-col gap-2 pb-10 px-5 md:px-3 w-full my-4 '>
   
       {friends.map((friend) => (
         <div
           key={friend._id}
-          className={`bg-[#62b2da] friendbox cursor-pointer overflow-hidden hover:rounded-xl  rounded text-black p-3 w-full `}
+          className={`bg-[#62b2da] friendbox cursor-pointer overflow-hidden hover:rounded-xl  rounded text-black  w-full flex items-center  p-3`}
           onClick={() => {setFriendSelect(friend); setGroupSelect(null);}}
         >
           <div className='flex gap-3 items-center'>
@@ -48,7 +48,7 @@ const FriendList = () => {
                 </div>
               )}
             </div>
-            <div className='flex justify-center flex-col'>
+            <div className='flex justify-center flex-col '>
               <div className='text-sm font-semibold'>{friend.name}</div>
               <div className='text-xs'>{friend.email}</div>
             </div>

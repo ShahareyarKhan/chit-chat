@@ -11,9 +11,9 @@ import { MdCopyAll, MdDelete, MdEdit } from "react-icons/md";
 
 
 // Create a socket instance
-const socket = io('http://localhost:5000', {
-    transports: ['websocket'],
-    secure: true
+const socket = io('https://chit-chat-api-lilac.vercel.app', {
+    forceNew: true,
+   transports: ["polling"],
 });
 
 socket.on('connect', () => {

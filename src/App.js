@@ -12,8 +12,9 @@ import io from 'socket.io-client'; // Correct import
 // const socket = io('wss://chit-chat-api-lilac.vercel.app/socket.io/?EIO=4', {
 //   transports: ['websocket']
 // });
-const socket = io('http://localhost:5000', {
-  transports: ['websocket']
+const socket = io('https://chit-chat-api-lilac.vercel.app', {
+  forceNew: true,
+  transports: ["polling"],
 });
 
 const App = () => {
