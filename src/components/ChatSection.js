@@ -12,9 +12,10 @@ import { MdCopyAll, MdDelete, MdEdit } from "react-icons/md";
 
 // Create a socket instance
 const socket = io('https://chit-chat-api-lilac.vercel.app', {
+    transports: ['polling', 'websocket'], // Try switching to ['websocket', 'polling'] if WebSocket is supported
     forceNew: true,
-   transports: ["polling"],
-});
+  });
+  
 
 socket.on('connect', () => {
     console.log('Socket connected');
