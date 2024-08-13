@@ -129,7 +129,7 @@ const ChatSection = (props) => {
         if (!alert) return;
 
         try {
-            const response = await fetch(`wss://chit-chat-api-lilac.vercel.app/api/message/delete/${messageId}`, {
+            const response = await fetch(`https://chit-chat-api-lilac.vercel.app/api/message/delete/${messageId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `${localStorage.getItem('token')}`
@@ -154,7 +154,7 @@ const ChatSection = (props) => {
 
     const fetchMessages = async () => {
         try {
-            const response = await fetch(`wss://chit-chat-api-lilac.vercel.app/api/message/${user._id}/${friendSelect._id}`, {
+            const response = await fetch(`https://chit-chat-api-lilac.vercel.app/api/message/${user._id}/${friendSelect._id}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `${localStorage.getItem('token')}`
@@ -187,7 +187,7 @@ const ChatSection = (props) => {
             };
 
             try {
-                const response = await fetch('wss://chit-chat-api-lilac.vercel.app/api/message/send', {
+                const response = await fetch('https://chit-chat-api-lilac.vercel.app/api/message/send', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
