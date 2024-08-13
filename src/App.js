@@ -13,7 +13,7 @@ const socketUrl = window.location.hostname === 'localhost'
   ? 'http://localhost:5000'
   : 'https://chit-chat-api-lilac.vercel.app';
 
-const socket = io('wss://chit-chat-api-lilac.vercel.app', {
+const socket = io('wss://chit-chat-api-lilac.vercel.app/socket.io/?EIO=4&transport=websocket', {
   transports: ['websocket'] // No need for secure: true
 });
 
