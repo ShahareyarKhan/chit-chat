@@ -110,7 +110,7 @@ h1 span {
   animation: wave 2s ease-in-out infinite;
 }
 
-.profile div{
+.loading div{
   display: inline-block;
   transition: 1s ease-out;
   animation: wave1 2s ease-in-out infinite;
@@ -118,33 +118,19 @@ h1 span {
 
 @keyframes wave1 {
   0%, 100% {
-    transform: translate(0px, 0px);
-    background: #000;    
+    transform: scale(1);
   }
   50% {
-    transform: translate(0px, -620px);
-    background: rgb(10, 78, 120);
+    transform: scale(1.4);
   }
 }
 
-.profile div:nth-child(1){
+.loading div:nth-child(1){
   animation-delay: 0s;
 }
 
-.profile div:nth-child(2){
-  animation-delay: 0.2s;
-}
-
-.profile div:nth-child(3){
+.loading div:nth-child(2){
   animation-delay: 0.4s;
-}
-
-.profile div:nth-child(4){
-  animation-delay: 0.6s;
-}
-
-.profile div:nth-child(5){
-  animation-delay: 0.8s;
 }
 
 h1 span:nth-child(1) {

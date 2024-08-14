@@ -1,18 +1,16 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { UserContext } from '../context/UserContext';
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { IoSend, IoVideocam } from 'react-icons/io5';
+import { IoSend } from 'react-icons/io5';
 import { BiSolidArrowToBottom } from "react-icons/bi";
 import { format, isSameDay, subDays } from 'date-fns';
 import io from 'socket.io-client';
-import { useNavigate } from 'react-router-dom';
-// import CallComponent from './CallComponent';
-import { MdCopyAll, MdDelete, MdEdit } from "react-icons/md";
+import { MdCopyAll, MdDelete } from "react-icons/md";
 
 
 // Create a socket instance
-const socket = io('https://chit-chat-api-lilac.vercel.app', {
-    transports: ['polling', 'websocket'], // Try switching to ['websocket', 'polling'] if WebSocket is supported
+const socket = io('http://localhost:5000', {
+    transports: ['polling', 'websocket'], 
     forceNew: true,
   });
   
@@ -36,7 +34,6 @@ const ChatSection = (props) => {
     const [friendOnline, setFriendOnline] = useState(false);
     const messagesEndRef = useRef(null);
     const [scrollToBottom, setScrollToBottom] = useState(true);
-    const history = useNavigate();
 
     useEffect(() => {
         if (friendId && friends.length) {
@@ -94,7 +91,6 @@ const ChatSection = (props) => {
     const [contextMenu, setContextMenu] = useState({ visible: false, x: 0, y: 0, messageId: null, type: "" });
     const contextMenuRef = useRef(null);
     useEffect(() => {
-        // Close context menu on click outside
         const handleClickOutside = (event) => {
             if (contextMenuRef.current && !contextMenuRef.current.contains(event.target)) {
                 setContextMenu({ visible: false, x: 0, y: 0, messageId: null });

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import FriendList from './FriendList';
 import Header from './Header';
 import BottomNavbar from './BottomNavbar';
@@ -10,7 +10,7 @@ import { IoChatbox } from 'react-icons/io5';
 import { FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { IoIosChatbubbles } from "react-icons/io";
-import { HiMiniUserGroup } from "react-icons/hi2";
+import { MdTipsAndUpdates } from "react-icons/md";
 import GroupChat from './GroupChat';
 
 const Home = () => {
@@ -21,16 +21,27 @@ const Home = () => {
       navigate('/login');
     }
   }, [navigate]);
+  const[loading, setloading]=useState(false);
 
   useEffect(() => {
-    fetchUserDetails();
-  },[]);
+    setloading(true); // Set loading to true before fetching data
+    setTimeout(() => {
+      fetchUserDetails();
+      setloading(false); // Set loading to false after fetching data
+    }, 1000);
+  }, []);
   
-  const { friendSelect, setFriendSelect,fetchUserDetails,  group, setGroup, groupSelect } = useContext(UserContext);
+  
+  const { friendSelect, fetchUserDetails,  group, setGroup, groupSelect } = useContext(UserContext);
 
   return (
     <>
       <div className='home min-h-[100vh] flex flex-col md:hidden'>
+      {loading&&<div className="flex items-center justify-center h-screen gap-3 loading">
+           <div className="text-xl font-semibold w-[10px] h-[10px] bg-[#ffffff] rounded-full"></div>
+           <div className="text-xl font-semibold w-[10px] h-[10px] bg-[#ffffff] rounded-full"></div>
+           <div className="text-xl font-semibold w-[10px] h-[10px] bg-[#ffffff] rounded-full"></div>
+         </div>}
         {!friendSelect && !groupSelect && <Header />}
         <div>
           {!friendSelect && !groupSelect && <FriendList />}
@@ -45,19 +56,19 @@ const Home = () => {
         <div className='bg-[#3d80a2e5] h-screen  flex flex-col gap-9 items-center justify-center w-[10%] max-w-[50px]'>
           <Link to="/" className='flex flex-col gap-1 justify-center items-center cursor-pointer hover:bg-[#fff] p-3 lg:p-4 aspect-square'>
             <IoChatbox />
-            <div className='text-xs'>Chats</div>
+            <div className='text-[9px]'>Chats</div>
           </Link>
           <Link to="/ai-chat" className='flex flex-col gap-1 justify-center items-center cursor-pointer hover:bg-[#fff] p-3 lg:p-4 aspect-square'>
             <TbMessageChatbot />
-            <div className='text-xs'>AI</div>
+            <div className='text-[9px]'>AI</div>
           </Link>
           <div className='flex flex-col gap-1 justify-center items-center cursor-pointer hover:bg-[#fff] p-3 lg:p-4 aspect-square' onClick={() => setGroup(!group)}>
-            <HiMiniUserGroup />
-            <div className='text-xs'>Group</div>
+          <MdTipsAndUpdates />
+            <div className='text-[9px]'>Updates</div>
           </div>
           <Link to="/profile" className='flex flex-col gap-1 justify-center items-center cursor-pointer hover:bg-[#fff] p-3 lg:p-4 aspect-square'>
             <FaUser />
-            <div className='text-xs'>User</div>
+            <div className='text-[9px]'>User</div>
           </Link>
         </div>
 

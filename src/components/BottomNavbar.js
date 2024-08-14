@@ -4,7 +4,7 @@ import { IoChatbox } from 'react-icons/io5';
 import { FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
-
+import { MdTipsAndUpdates } from "react-icons/md";
 import { TbMessageChatbot } from "react-icons/tb";
 const BottomNavbar = () => {
     const {group, setGroup} = useContext(UserContext);
@@ -30,10 +30,10 @@ const BottomNavbar = () => {
                 </Link>
                 <div className='flex flex-col gap-1 justify-center items-center cursor-pointer' onClick={() => setGroup(!group)}>
                     <div>
-                        <HiMiniUserGroup />
+                        <MdTipsAndUpdates />
                     </div>
                     <div className='text-xs'>
-                        Group
+                        Updates
                     </div>
                 </div>
                 <Link to="/profile" className='flex flex-col gap-1 justify-center items-center cursor-pointer'>
