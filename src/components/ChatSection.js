@@ -9,11 +9,13 @@ import { MdCopyAll, MdDelete } from "react-icons/md";
 
 
 // Create a socket instance
-const socket = io('http://localhost:5000', {
-    transports: ['polling', 'websocket'], 
-    forceNew: true,
-  });
-  
+const socket = io("https://chit-chat-api-lilac.vercel.app", {
+    withCredentials: true,
+    extraHeaders: {
+        "my-custom-header": "abcd"
+    }
+});
+
 
 socket.on('connect', () => {
     console.log('Socket connected');
@@ -369,7 +371,7 @@ const ChatSection = (props) => {
                     </button>
                 </div>
             </div>
-            
+
         </div>
     );
 };
