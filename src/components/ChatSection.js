@@ -13,9 +13,7 @@ const socket = io("https://chit-chat-api-lilac.vercel.app", {
     // transports: ['websocket', 'polling'],
     transports: ['polling', 'websocket'],
     withCredentials: true,
-    extraHeaders: {
-        "my-custom-header": "abcd"
-    }
+   
 });
 
 
