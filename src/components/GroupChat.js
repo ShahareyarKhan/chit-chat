@@ -6,7 +6,7 @@ import { format, isSameDay, subDays } from 'date-fns';
 import io from 'socket.io-client';
 import { MdCopyAll, MdDelete } from 'react-icons/md';
 
-const socket = io('http://localhost:5000', {
+const socket = io('https://chit-chat-api-lilac.vercel.app', {
   transports: ['websocket'],
   secure: true
 });
