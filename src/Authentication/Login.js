@@ -23,9 +23,9 @@ const Login = () => {
 
     return (
         <div className='h-[100vh] w-full bg-[#ffffff] flex items-center'>
-            <div className=' w-[100%] mx-auto bg-[#003cffc0] p-10   md:min-h-[80vh] flex flex-col justify-center px-9 max-w-[450px] md:max-w-[500px] relative rounded-lg ' style={{boxShadow: '7px 9px 10px #2e2eea inset, -7px -7px 10px #2e2eea inset' }}>
+            <div className=' w-[97%] mx-auto bg-[#b1e7e199] p-10 md:min-h-[80vh] flex flex-col justify-center px-9 max-w-[450px] md:max-w-[500px] relative rounded-lg ' style={{boxShadow: '7px 9px 10px #95d0ca inset, -7px -7px 10px #95d0ca inset' }}>
                 {/* <Alert/> */}
-                <div onClick={() => window.history.back()} className="cursor-pointer absolute top-8 text-white">
+                <div onClick={() => window.history.back()} className="cursor-pointer absolute top-8 text-black">
                     <IoMdArrowRoundBack className="text-2xl" />
                 </div>
                 <div className=' flex justify-center '>
@@ -33,7 +33,7 @@ const Login = () => {
                         <IoIosChatbubbles className='text-3xl lg:text-4xl text-blue-800' />
                     </div>
                 </div>
-                <h1 className='text-xl md:text-2xl text-white font-semibold md:font-bold text-center my-5 h1'>
+                <h1 className='text-2xl  text-black font-bold md:font-bold text-center my-5 h1'>
                     Login to Chit-Chat
                 </h1>
 
@@ -42,7 +42,7 @@ const Login = () => {
                     <div>
                         <input
                             type="email"
-                            className='w-full border-b border-gray-500 bg-transparent placeholder:text-gray-300 outline-none p-2'
+                            className='w-full border-b border-gray-500 bg-transparent placeholder:text-gray-600 outline-none p-2'
                             placeholder='Enter Email'
                             required
                             value={email}
@@ -53,14 +53,14 @@ const Login = () => {
                     <div>
                         <input
                             type="password"
-                            className='w-full border-b border-gray-500 bg-transparent placeholder:text-gray-300 outline-none p-2'
+                            className='w-full border-b border-gray-500 bg-transparent placeholder:text-gray-600 outline-none p-2'
                             placeholder='Enter Password'
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
-                    <a href="/api-auth-login-signup-forgot-password" className='flex justify-end font-semibold cursor-pointer text-red-400 hover:underline'>
+                    <a href="/api-auth-login-signup-forgot-password" className='flex justify-end font-semibold cursor-pointer text-red-600 hover:underline'>
                         Forgot password?
                     </a>
 
@@ -68,7 +68,7 @@ const Login = () => {
                         <input
                             type="submit"
                             className='w-full border border-gray-500  bg-white  placeholder:text-gray-600 rounded
-                            hover:bg-blue-600 outline-none cursor-pointer  hover:text-black p-2 hover:rounded-2xl my-2'
+                            hover:bg-[#234] hover:text-white outline-none cursor-pointer  p-2 hover:rounded-2xl my-2'
                             style={{ transition: "1s all ease" }}
                             value={loading ? 'Loading...' : 'Login'}
                             disabled={loading}
