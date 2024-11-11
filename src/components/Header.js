@@ -4,9 +4,10 @@ import { UserContext } from '../context/UserContext';
 import { IoPersonAdd, IoNotifications, IoClose } from "react-icons/io5";
 import { TiTick } from "react-icons/ti";
 import GroupModal from './GroupModal';
+import { MdDarkMode } from 'react-icons/md';
 
 const Header = () => {
-    const { searchUsers, searchResults, request,url, sendFriendRequest, acceptFriendRequest, friends, setFriendSelect, fetchFriends, user } = useContext(UserContext);
+    const { searchUsers, searchResults, request, url, sendFriendRequest, acceptFriendRequest, friends, setFriendSelect, fetchFriends, user, mode } = useContext(UserContext);
     const [query, setQuery] = useState('');
     const [noti, setNoti] = useState(false);
     const [options, setOptions] = useState(false);
@@ -16,8 +17,6 @@ const Header = () => {
     const moreRef = useRef(null);
     const searchInputRef = useRef(null);
     const [srchBox, setSrchBox] = useState(false);
-
-   
 
     const handleSearch = async (e) => {
         setSrchBox(true);
@@ -83,6 +82,7 @@ const Header = () => {
                     <span>Chit-Chat</span>
                 </div>
                 <div className='threedot p-3 rounded-full flex gap-5'>
+                    <MdDarkMode className='text-xl' />
                     <div className='relative'>
                         <IoNotifications className='text-xl' onClick={() => setNoti(!noti)} />
                         {request?.pendingRequests?.length > 0 && (

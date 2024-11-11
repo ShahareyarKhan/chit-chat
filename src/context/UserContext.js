@@ -25,6 +25,7 @@ export const UserProvider = ({ children }) => {
     const [loading, setLoading] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
     const [friendSelect, setFriendSelect] = useState(null);
+    const [mode, setmode]=useState("light");
     const [groupSelect, setGroupSelect] = useState(null);
 
     const url="https://chit-chat-api-lilac.vercel.app"
@@ -204,7 +205,7 @@ export const UserProvider = ({ children }) => {
     return (
         <UserContext.Provider value={{
             clearError, friendSelect, setFriendSelect, user, error, friends, loginUser, registerUser, loading, googleSignIn,
-            fetchUserDetails, request,url, sendFriendRequest, searchUsers, searchResults, acceptFriendRequest, group, setGroup, groupSelect, setGroupSelect
+            fetchUserDetails, request,url,mode, setmode, sendFriendRequest, searchUsers, searchResults, acceptFriendRequest, group, setGroup, groupSelect, setGroupSelect
         }}>
             {children}
         </UserContext.Provider>

@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { UserContext } from '../context/UserContext';
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { IoSend } from 'react-icons/io5';
+import { IoAttach, IoSend } from 'react-icons/io5';
 import { BiSolidArrowToBottom } from "react-icons/bi";
 import { format, isSameDay, subDays } from 'date-fns';
 import io from 'socket.io-client';
 import { MdCopyAll, MdDelete } from "react-icons/md";
-
+import { LuTimer } from "react-icons/lu";
 
 // Create a socket instance
 const socket = io("http://localhost:5000", {
@@ -364,12 +364,15 @@ const ChatSection = (props) => {
                             }
                         }}
                     />
+                    <LuTimer className="text-2xl text-[#075E54]" />
+                    <IoAttach className="text-2xl text-[#075E54]" />
                     <button
                         onClick={handleSendMessage}
                         className="  text-white p-2 "
                     >
                         <IoSend className="text-2xl text-[#075E54]" />
                     </button>
+
                 </div>
             </div>
 
