@@ -53,7 +53,7 @@ const Profile = () => {
                 </div>
                 <h2 className='text-2xl font-semibold my-5 text-center'>Profile</h2>
 
-                <div className='flex items-center gap-4'>
+                <div className='flex flex-col md:flex-row  gap-4'>
                     <div className='flex justify-center my-3 text-xl'>
                         {user && user.pic  ? (
                             <img src={user.pic} className='rounded-full aspect-square h-[60px] w-[60px]' alt="Profile" />
