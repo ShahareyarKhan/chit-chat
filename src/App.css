@@ -1,27 +1,7 @@
-* {
-  /* user-select: none; */
-  transition: 0.3s all ease-in;
-}
-
-body{
-  /* background: #31c288; */
-  background: #4195bd;
-  /* background-image: url('https://img.freepik.com/premium-vector/social-networks-dating-apps-vector-seamless-pattern_341076-469.jpg'); */
-
-}
-.msgg{
-  /* background-image: linear-gradient(#dee4ff, #1f7ce13b); */
-  background: #79cffa;
-
-}
 
 
-.chatsection{
-  background: #0a2e54;
-}
 nav{
-  background: #79cffa;
-  box-shadow: 3px 3px 10px #295789;
+  box-shadow: 3px 3px 10px ;
 }
 
 ::-webkit-scrollbar {
@@ -130,11 +110,7 @@ h1 span {
   animation-delay: 0.4s;
 }
 
-.home{
-  background: #00587e;
-}
-
 .friendbox{
-  box-shadow: 3px 4px 10px #8bc3ff inset, -3px -4px 10px #2979c9 inset; 
+  box-shadow: 2px 2px 5px inset, -2px -2px 5px inset; 
 }
 

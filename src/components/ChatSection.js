@@ -16,8 +16,6 @@ const socket = io("http://localhost:5000", {
    
 });
 
-
-
 socket.on('connect', () => {
     console.log('Socket connected');
 });
@@ -27,7 +25,7 @@ socket.on('disconnect', () => {
 });
 
 const ChatSection = (props) => {
-    const { friends, user, friendSelect, setFriendSelect, url } = useContext(UserContext);
+    const { friends, user, friendSelect, setFriendSelect, url, mode, setmode } = useContext(UserContext);
     const friendId = friendSelect._id;
     const [friend, setFriend] = useState(null);
     const [messages, setMessages] = useState([]);
@@ -93,6 +91,7 @@ const ChatSection = (props) => {
 
     const [contextMenu, setContextMenu] = useState({ visible: false, x: 0, y: 0, messageId: null, type: "" });
     const contextMenuRef = useRef(null);
+
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (contextMenuRef.current && !contextMenuRef.current.contains(event.target)) {
@@ -112,7 +111,6 @@ const ChatSection = (props) => {
         setContextMenu({ visible: true, messageId, type: senderID === user._id ? "user" : "not user" });
 
     };
-
 
     const handleCopyMessage = (content) => {
         navigator.clipboard.writeText(content);
@@ -211,8 +209,7 @@ const ChatSection = (props) => {
             }
         }
     };
-    const [call, setcall] = useState(false);
-
+    
     const getFormattedDate = (date) => {
         const today = new Date();
         const yesterday = subDays(today, 1);
@@ -237,12 +234,12 @@ const ChatSection = (props) => {
             return (
                 <div key={index} className='' >
                     {isNewDay && (
-                        <div className="text-center text-xs bg-[#02162f] text-white p-2 rounded w-[200px] mx-auto  my-2">
+                        <div className={`text-center text-[10px]   text-black p-1 rounded w-[200px] mx-auto  my-2 ${mode === 'light' ? 'bg-white text-black' : 'text-white bg-black'}`}>
                             {getFormattedDate(messageDate)}
                         </div>
                     )}
                     <div className={`mb-1 relative ${msg.senderId === user._id ? 'text-right' : 'text-left'}`}>
-                        <div className={`inline-block relative p-1 px-3 text-sm  max-w-[50%] break-words ${msg.senderId === user._id ? ' text-black bg-[#a0bdfb] rounded-l-xl rounded-b-xl' : ' text-black msgg rounded-r-xl rounded-b-xl'} ${contextMenu.messageId === msg._id ? ' opacity-50' : ''}`} onContextMenu={(e) => handleContextMenu(e, msg._id, msg.senderId)} onClick={(e) => handleContextMenu(e, msg._id, msg.senderId)}>
+                        <div className={`inline-block relative p-1 px-3 text-sm  max-w-[50%] break-words ${msg.senderId === user._id ? `${mode==="light"?"bg-[#8e9292]":"bg-white text-black"} rounded-l-xl rounded-b-xl` : `${mode==="light"?"bg-[#b3b7bb]":"bg-gray-400 text-black"} rounded-r-xl rounded-b-xl`} ${contextMenu.messageId === msg._id ? ' opacity-50' : ''}`} onContextMenu={(e) => handleContextMenu(e, msg._id, msg.senderId)} onClick={(e) => handleContextMenu(e, msg._id, msg.senderId)}>
                             <div className='text-left '>
                                 {msg.content}
                                 <div className={`flex m-0 items-center text-[10px]  ${msg.senderId === user._id ? ' justify-end' : 'justify-start'}`}>
@@ -261,8 +258,8 @@ const ChatSection = (props) => {
     }
 
     return (
-        <div className="flex flex-col h-screen w-full chatsection bg-[#295789]" >
-            <div className="w-full sticky top-0 bg-[#05182a] p-4 flex items-center z-50 text-white">
+        <div className={`flex flex-col h-screen w-full chatsection ${mode === 'light' ? 'bg-[#c3c6c6] text-black' : 'bg-[#02020c] text-white'}`} >
+            <div className={`w-full sticky top-0  p-4 flex items-center z-50 ${mode === 'light' ? 'bg-[#ffffff] text-black' : 'bg-[#000000] text-white'}`}>
                 <div className="cursor-pointer" >
                     <IoMdArrowRoundBack className="text-xl md:text-2xl " onClick={() => { setFriendSelect(null) }} />
                 </div>
@@ -270,14 +267,14 @@ const ChatSection = (props) => {
                     {friend.pic ? (
                         <img src={friend.pic} className="relative w-[40px] h-[40px] rounded-full" />
                     ) : (
-                        <div className='relative text-xl w-[40px] h-[40px] rounded-full flex items-center justify-center font-bold bg-white text-black border border-black'>
+                        <div className='relative text-xl w-[40px] h-[40px] rounded-full flex items-center justify-center font-bold   border '>
                             {friend.name[0]}
                         </div>
                     )}
                     {friendOnline ? (
                         <div className="absolute bottom-4 w-[12px] h-[12px] bg-green-700 rounded-full border border-white"></div>
                     ) : (
-                        <div className="absolute bottom-4 w-[12px] h-[12px] bg-gray-300 rounded-full border border-white"></div>
+                        <div className="absolute bottom-4 w-[12px] h-[12px] bg-gray-400 rounded-full border border-white"></div>
                     )}
 
                     <div className='flex gap-5 items-center justify-between w-full '>
@@ -315,7 +312,7 @@ const ChatSection = (props) => {
             )}
 
             <div className='w-full  flex justify-center '>
-                <div className='fixed bottom-[70px] p-1 bg-[#000000] text-white hover:shadow-xl z-50 rounded-full cursor-pointer' onClick={() => {
+                <div className='fixed bottom-[70px] p-1  hover:shadow-xl z-50 rounded-full cursor-pointer' onClick={() => {
                     setScrollToBottom(true);
                     scrollToBottomHandler();
                 }}>
@@ -333,18 +330,18 @@ const ChatSection = (props) => {
                 {renderMessagesWithDates()}
                 <div ref={messagesEndRef} />
                 {typingMessage && (
-                    <div className='fixed bg-white  p-3 bottom-14 typing-wave text-xs rounded-full text-gray-200 flex gap-5 my-1'>
+                    <div className='fixed   p-3 bottom-14 typing-wave text-xs rounded-full flex gap-5 my-1'>
                         <div className='typing-dot'></div>
                         <div className='typing-dot'></div>
                         <div className='typing-dot'></div>
                     </div>
                 )}
             </div>
-            <div className=" p-1 w-full  bottom-0 bg-[#ffffff] z-50">
+            <div className={`p-1 w-full  bottom-0 ${mode==="light"?"bg-[#ffffff] text-black":"bg-[#000] text-white"} z-50`}>
                 <div className="flex items-center gap-4">
                     <input
                         type="text"
-                        className="flex-1 p-3 border outline-none rounded-md"
+                        className={`flex-1 p-3  outline-none rounded-md ${mode==="light"?"bg-white":"bg-black"} `}
                         placeholder="Type a message..."
                         value={newMessage}
                         onChange={(e) => {
@@ -364,13 +361,13 @@ const ChatSection = (props) => {
                             }
                         }}
                     />
-                    <LuTimer className="text-2xl text-[#075E54]" />
-                    <IoAttach className="text-2xl text-[#075E54]" />
+                    <LuTimer className={`text-2xl ${mode==="light"?"text-green-400":"text-blue-400"}`} />
+                    <IoAttach className={`text-2xl ${mode==="light"?"text-green-400":"text-blue-400"}`} />
                     <button
                         onClick={handleSendMessage}
                         className="  text-white p-2 "
                     >
-                        <IoSend className="text-2xl text-[#075E54]" />
+                        <IoSend className={`text-2xl ${mode==="light"?"text-green-400":"text-blue-400"}`} />
                     </button>
 
                 </div>

@@ -7,7 +7,7 @@ import GroupModal from './GroupModal';
 import { MdDarkMode } from 'react-icons/md';
 
 const Header = () => {
-    const { searchUsers, searchResults, request, url, sendFriendRequest, acceptFriendRequest, friends, setFriendSelect, fetchFriends, user, mode } = useContext(UserContext);
+    const { searchUsers, searchResults, request, url, sendFriendRequest, acceptFriendRequest, friends, setFriendSelect, fetchFriends, user, mode, setmode } = useContext(UserContext);
     const [query, setQuery] = useState('');
     const [noti, setNoti] = useState(false);
     const [options, setOptions] = useState(false);
@@ -76,13 +76,13 @@ const Header = () => {
     };
 
     return (
-        <nav className='sticky top-0 shadow-md'>
+        <nav className={`sticky top-0 shadow-md ${mode === "light" ? "bg-gradient-to-b from-[#2aa4bd] to-[#beeefd] text-black " : "bg-[#040718] text-white"} shadow-lg `}>
             <div className='flex justify-between items-center p-2 px-9 md:px-5'>
                 <div className='text-xl font-semibold flex items-center gap-2'>
                     <span>Chit-Chat</span>
                 </div>
                 <div className='threedot p-3 rounded-full flex gap-5'>
-                    <MdDarkMode className='text-xl' />
+                    <MdDarkMode className='text-xl' onClick={() => setmode(mode === "light" ? "dark" : "light")} />
                     <div className='relative'>
                         <IoNotifications className='text-xl' onClick={() => setNoti(!noti)} />
                         {request?.pendingRequests?.length > 0 && (
@@ -93,10 +93,10 @@ const Header = () => {
                     </div>
                     <BsThreeDotsVertical className='text-xl' onClick={() => setOptions(!options)} />
                     {options && (
-                        <div className='absolute right-2 bg-[#8bd8f4] text-black z-50 w-[150px] top-[60px] text-sm max-h-[400px] overflow-auto flex flex-col shadow-lg' ref={moreRef}>
-                            <div className='hover:bg-white p-3 cursor-pointer' onClick={() => setGroupModalOpen(true)}>Create Group</div>
-                            <div className='hover:bg-white p-3 cursor-pointer'>Theme</div>
-                            <div className='hover:bg-white p-3 cursor-pointer'>Settings</div>
+                        <div className={`${mode === "light" ? "bg-cyan-300" : "bg-[#09103b]"} absolute right-2   z-50 w-[150px] top-[60px] text-sm max-h-[400px] overflow-auto flex flex-col shadow-lg`} ref={moreRef}>
+                            <div className=' p-3 cursor-pointer' onClick={() => setGroupModalOpen(true)}>Create Group</div>
+                            <div className=' p-3 cursor-pointer'>Theme</div>
+                            <div className=' p-3 cursor-pointer'>Settings</div>
                         </div>
                     )}
                 </div>

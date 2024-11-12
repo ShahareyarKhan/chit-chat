@@ -3,8 +3,8 @@ import { UserContext } from '../context/UserContext';
 
 const FriendList = () => {
   const { friends, setFriendSelect, setGroupSelect,url } = useContext(UserContext);
-  const { user } = useContext(UserContext);
-  const [hoveredFriend, setHoveredFriend] = useState(null);
+  const { user, mode, setmode } = useContext(UserContext);
+  // const [hoveredFriend, setHoveredFriend] = useState(null);
   const [groups, setGroups] = useState([]);
 
   useEffect(() => {
@@ -35,15 +35,15 @@ const FriendList = () => {
       {friends.map((friend) => (
         <div
           key={friend._id}
-          className={`bg-[#62b2da] friendbox cursor-pointer overflow-hidden hover:rounded-xl  rounded text-black  w-full flex items-center  p-3`}
-          onClick={() => {setFriendSelect(friend); setGroupSelect(null);}}
+          className={`${mode==='light' ? 'bg-[#28dfff] ' : 'bg-[#000000]'} friendbox cursor-pointer overflow-hidden hover:rounded-xl  rounded w-full flex items-center  p-3`}
+          onClick={() => {setFriendSelect(friend); setGroupSelect(null);}} style={{transition:"0.3s all ease-in"}}
         >
           <div className='flex gap-3 items-center'>
             <div>
               {friend.pic ? (
                 <img src={friend.pic} alt="" className='w-10 h-10 rounded-full' />
               ) : (
-                <div className='w-10 h-10 rounded-full bg-white flex items-center justify-center text-2xl font-bold'>
+                <div className='w-10 h-10 rounded-full  flex items-center justify-center text-2xl font-bold'>
                   {friend.name[0].toUpperCase()}
                 </div>
               )}
@@ -59,7 +59,7 @@ const FriendList = () => {
       {groups.map((group) => (
         <div
           key={group._id}
-          className={`bg-[#000000]  cursor-pointer overflow-hidden hover:rounded-xl rounded text-white p-3 w-full `}
+          className={`  cursor-pointer overflow-hidden hover:rounded-xl rounded  p-3 w-full ${mode==='light' ? 'bg-[#28dfff] ' : 'bg-[#000000]'} friendbox `}
           onClick={() => {setGroupSelect(group); setFriendSelect(null);}}
         >
           <div className='flex gap-3 items-center'>

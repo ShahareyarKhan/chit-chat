@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router';
 
 const Profile = () => {
     const navigate = useNavigate();
-    const { user, friends } = useContext(UserContext);
+    const { user, friends, mode } = useContext(UserContext);
 
     useEffect(() => {
         if (!localStorage.getItem('token')) {
@@ -25,7 +25,7 @@ const Profile = () => {
     }
 
     return (
-        <div className='h-screen flex justify-center items-center flex-col bg-[#0ea6ec]'>
+        <div className={`h-screen flex justify-center items-center flex-col ${mode==="light"?"bg-white":"bg-black"} `}>
             <div className='w-[90%] max-w-[500px] mx-auto  p-8 relative bg-[#b7c6e3]  rounded border-4 border-black'>
                 <div onClick={() => window.history.back()} className="cursor-pointer absolute top-8">
                     <IoMdArrowRoundBack className="text-2xl" />
