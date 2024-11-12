@@ -29,7 +29,7 @@ const Register = () => {
         <div className='h-[100vh] w-full bg-[#071039] flex items-center'>
             <div className=' w-[90%] mx-auto bg-[#0c1a45] p-10 md:min-h-[80vh] flex flex-col justify-center px-9 max-w-[450px] md:max-w-[500px] relative rounded-xl border border-[#01040a]' >
 
-                <h1 className='text-2xl  text-cyan-400 font-bold md:font-bold text-center my-5 '>
+                <h1 className='text-xl md:text-2xl  text-cyan-400 font-bold md:font-bold text-center my-5 '>
                     Register to Chit-Chat
                 </h1>
 
@@ -99,7 +99,7 @@ const Register = () => {
                     </div>
                 </div>
 
-                <div className=' text-sm text-white my-7 text-center flex justify-center gap-3'>
+                <div className=' text-xs md:text-sm text-white my-7 text-center flex justify-center gap-3'>
                     <div>Already have an account?</div>
                     <div>
                         <Link to="/login" className='font-semibold hover:underline'>Login Account</Link>
