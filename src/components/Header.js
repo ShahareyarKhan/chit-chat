@@ -76,7 +76,7 @@ const Header = () => {
     };
 
     return (
-        <nav className={`sticky top-0 shadow-md ${mode === "light" ? "bg-gradient-to-b from-[#2aa4bd] to-[#beeefd] text-black " : "bg-[#040718] text-white"} shadow-lg `}>
+        <nav className={`sticky top-0 shadow-md ${mode === "light" ? "bg-gradient-to-b from-[#70cbdd] to-[#beeefd] text-black " : "bg-[#040718] text-white"} shadow-lg `}>
             <div className='flex justify-between items-center p-2 px-9 md:px-5'>
                 <div className='text-xl font-semibold flex items-center gap-2'>
                     <span>Chit-Chat</span>

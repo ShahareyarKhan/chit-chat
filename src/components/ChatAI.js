@@ -99,7 +99,7 @@ const ChatAI = () => {
             <div className={`fixed bottom-0 ${mode === 'dark' ? 'bg-[#234]' : 'bg-gray-200'} w-full flex items-center gap-2 px-1`}>
                 <input
                     type="text"
-                    className={`w-full outline-none ${mode === 'dark' ? 'bg-[#234] text-white' : 'bg-white text-black'} p-3 border rounded`}
+                    className={`w-full outline-none ${mode === 'dark' ? 'bg-[#234] text-white' : 'bg-white text-black'} p-3  rounded`}
                     placeholder="Enter your prompt"
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}

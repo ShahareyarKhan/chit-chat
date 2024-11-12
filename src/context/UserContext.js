@@ -133,16 +133,23 @@ export const UserProvider = ({ children }) => {
                     method: "GET",
                     headers: {
                         'Content-Type': 'application/json',
-                        'authorization': token
+                        'Authorization': localStorage.getItem('token')
                     }
                 });
                 const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to fetch user details');
+                }
                 setUser(data.user);
             } catch (error) {
+                console.error('Error fetching user details:', error.message);
                 setError('Failed to fetch user details');
             }
+        } else {
+            setError('No token found');
         }
     };
+    
 
     useEffect(() => {
         fetchUserDetails();
@@ -202,10 +209,31 @@ export const UserProvider = ({ children }) => {
         }
     };
 
+    const removeFriend = async (friendId) => {
+        try {
+            const response = await fetch(`${url}/api/friend/remove-friend/${friendId}/${user._id}`, {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'authorization': localStorage.getItem('token'),
+                },
+            });
+            const data = await response.json();
+            console.log(data);
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to remove friend');
+            }
+            setFriends((prevFriends) => prevFriends.filter(friend => friend._id !== friendId));
+            alert('Friend removed successfully.');
+        } catch (error) {
+            setError(error.message || 'Failed to remove friend');
+        }
+    };
+
     return (
         <UserContext.Provider value={{
             clearError, friendSelect, setFriendSelect, user, error, friends, loginUser, registerUser, loading, googleSignIn,
-            fetchUserDetails, request,url,mode, setmode, sendFriendRequest, searchUsers, searchResults, acceptFriendRequest, group, setGroup, groupSelect, setGroupSelect
+            fetchUserDetails, request,url,mode,removeFriend, setmode, sendFriendRequest, searchUsers, searchResults, acceptFriendRequest, group, setGroup, groupSelect, setGroupSelect
         }}>
             {children}
         </UserContext.Provider>
