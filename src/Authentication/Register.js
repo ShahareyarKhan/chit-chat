@@ -1,144 +1,3 @@
-// import React, { useState, useContext } from 'react';
-// import { Link, useNavigate } from 'react-router-dom';
-// import { UserContext } from '../context/UserContext';
-// import { FcGoogle } from "react-icons/fc";
-// import { IoMdArrowRoundBack } from 'react-icons/io';
-// import { IoIosChatbubbles } from "react-icons/io";
-
-// const Register = () => {
-//     const [name, setName] = useState('');
-//     const [email, setEmail] = useState('');
-//     const [password, setPassword] = useState('');
-//     const [cpassword, setCpassword] = useState('');
-//     const { registerUser, error, loading, googleSignIn } = useContext(UserContext);
-//     const navigate = useNavigate();
-
-//     const handleSubmit = async (e) => {
-//         e.preventDefault();
-//         if (password !== cpassword) {
-//             alert("Passwords do not match!");
-//             return;
-//         }
-//         await registerUser(name, email, password, '');
-//         if (!error) {
-//             navigate('/');
-//         }
-//     };
-
-//     return (
-
-//         <div className='h-[100vh] flex items-center'>
-//             <div className=' w-[100%] mx-auto bg-[#ffffff] p-3 min-h-screen  md:min-h-[80vh] flex flex-col justify-center px-9 max-w-[500px] relative '>
-//                 <div onClick={() => window.history.back()} className="cursor-pointer absolute top-8">
-//                     <IoMdArrowRoundBack className="text-2xl" />
-//                 </div>
-//                 <div className=' flex justify-center '>
-//                     <div className='p-2 bg-gray-300 rounded-xl'>
-
-//                         <IoIosChatbubbles className='text-3xl lg:text-4xl text-blue-800' />
-//                     </div>
-//                 </div>
-//                 {/* <h1 className='text-2xl font-bold text-center my-5 '>Register to Chit-Chat </h1> */}
-//                 <h1 className='text-2xl font-bold text-center my-5 h1'>
-//                     <span>R</span>
-//                     <span>e</span>
-//                     <span>g</span>
-//                     <span>i</span>
-//                     <span>s</span>
-//                     <span>t</span>
-//                     <span>e</span>
-//                     <span>r</span>
-//                     <span>&nbsp; </span>
-//                     <span>t</span>
-//                     <span>o</span>
-//                     <span>&nbsp; </span>
-//                     <span>C</span>
-//                     <span>h</span>
-//                     <span>i</span>
-//                     <span>t</span>
-//                     <span>-</span>
-//                     <span>C</span>
-//                     <span>h</span>
-//                     <span>a</span>
-//                     <span>t</span>
-//                 </h1>
-
-//                 <form onSubmit={handleSubmit} className='w-full flex flex-col gap-4 mt-3 p-'>
-//                     <div>
-//                         <input
-//                             type="text"
-//                             className='w-full border-b-2 border-gray-700 bg-transparent placeholder:text-gray-600 outline-none p-2'
-//                             placeholder='Enter Name'
-//                             required
-//                             value={name}
-//                             onChange={(e) => setName(e.target.value)}
-//                         />
-//                     </div>
-//                     <div>
-//                         <input
-//                             type="email"
-//                             className='w-full border-b-2 border-gray-700 bg-transparent placeholder:text-gray-600 outline-none p-2'
-//                             placeholder='Enter Email'
-//                             required
-//                             value={email}
-//                             onChange={(e) => setEmail(e.target.value)}
-//                         />
-//                     </div>
-//                     <div>
-//                         <input
-//                             type="password"
-//                             className='w-full border-b-2 border-gray-700 bg-transparent placeholder:text-gray-600 outline-none p-2'
-//                             placeholder='Enter Password'
-//                             required
-//                             value={password}
-//                             onChange={(e) => setPassword(e.target.value)}
-//                         />
-//                     </div>
-//                     <div>
-//                         <input
-//                             type="password"
-//                             className='w-full border-b-2 border-gray-700 bg-transparent placeholder:text-gray-600 outline-none p-2'
-//                             placeholder='Confirm Password'
-//                             required
-//                             value={cpassword}
-//                             onChange={(e) => setCpassword(e.target.value)}
-//                         />
-//                     </div>
-//                     <div>
-//                         <input
-//                             type="submit"
-//                             className='w-full border border-gray-500 bg-white placeholder:text-gray-600 outline-none cursor-pointer hover:text-black p-2 hover:rounded-2xl my-2'
-//                             style={{ transition: "0.3s all ease" }}
-//                             value={loading ? 'Loading...' : 'Register'}
-//                             disabled={loading}
-//                         />
-//                     </div>
-//                 </form>
-//                 <div className='flex gap-3 items-center justify-center p-2 mt-5 cursor-pointer rounded hover:rounded-xl border border-gray-300' onClick={async () => {
-//                     await googleSignIn();
-//                     navigate('/');
-//                 }}>
-//                     <div>
-//                         <FcGoogle className='text-2xl' />
-//                     </div>
-//                     <div className='text-sm' >
-//                         Sign up with Google
-//                     </div>
-//                 </div>
-
-//                 <div className='text-sm my-7 text-center flex justify-center gap-3'>
-//                     <div>Already have an account?</div>
-//                     <div>
-//                         <Link to="/login" className='font-semibold hover:underline'>Login Account</Link>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default Register;
-
 import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
@@ -167,19 +26,10 @@ const Register = () => {
     };
 
     return (
-        <div className='h-[100vh] w-full bg-[#ffffff] flex items-center'>
-            <div className='w-[97%] mx-auto bg-[#b1e7e199] p-10 md:min-h-[80vh] flex flex-col justify-center px-9 max-w-[450px] md:max-w-[500px] relative rounded-lg'
-                 style={{ boxShadow: '7px 9px 10px #95d0ca inset, -7px -7px 10px #95d0ca inset' }}>
-                
-                <div onClick={() => window.history.back()} className="cursor-pointer absolute top-8 text-black">
-                    <IoMdArrowRoundBack className="text-2xl" />
-                </div>
-                <div className='flex justify-center'>
-                    <div className='p-2 bg-white rounded-xl'>
-                        <IoIosChatbubbles className='text-3xl lg:text-4xl text-blue-800' />
-                    </div>
-                </div>
-                <h1 className='text-2xl text-black font-bold md:font-bold text-center my-5 h1'>
+        <div className='h-[100vh] w-full bg-[#071039] flex items-center'>
+            <div className=' w-[90%] mx-auto bg-[#0c1a45] p-10 md:min-h-[80vh] flex flex-col justify-center px-9 max-w-[450px] md:max-w-[500px] relative rounded-xl border border-[#01040a]' >
+
+                <h1 className='text-2xl  text-cyan-400 font-bold md:font-bold text-center my-5 '>
                     Register to Chit-Chat
                 </h1>
 
@@ -187,7 +37,7 @@ const Register = () => {
                     <div>
                         <input
                             type="text"
-                            className='w-full border-b border-gray-500 bg-transparent placeholder:text-gray-600 outline-none p-2'
+                            className='w-full border-b border-gray-300 bg-transparent placeholder:text-gray-400 outline-none p-2 text-white'
                             placeholder='Enter Name'
                             required
                             value={name}
@@ -197,7 +47,7 @@ const Register = () => {
                     <div>
                         <input
                             type="email"
-                            className='w-full border-b border-gray-500 bg-transparent placeholder:text-gray-600 outline-none p-2'
+                            className='w-full border-b border-gray-300 bg-transparent placeholder:text-gray-400 outline-none p-2 text-white'
                             placeholder='Enter Email'
                             required
                             value={email}
@@ -208,7 +58,7 @@ const Register = () => {
                     <div>
                         <input
                             type="password"
-                            className='w-full border-b border-gray-500 bg-transparent placeholder:text-gray-600 outline-none p-2'
+                            className='w-full border-b border-gray-300 bg-transparent placeholder:text-gray-400 outline-none p-2 text-white'
                             placeholder='Enter Password'
                             required
                             value={password}
@@ -218,7 +68,7 @@ const Register = () => {
                     <div>
                         <input
                             type="password"
-                            className='w-full border-b border-gray-500 bg-transparent placeholder:text-gray-600 outline-none p-2'
+                            className='w-full border-b border-gray-300 bg-transparent placeholder:text-gray-400 outline-none p-2 text-white'
                             placeholder='Confirm Password'
                             required
                             value={cpassword}
@@ -228,7 +78,7 @@ const Register = () => {
                     <div>
                         <input
                             type="submit"
-                            className='w-full border border-gray-500 bg-white placeholder:text-gray-600 rounded hover:bg-[#234] hover:text-white outline-none cursor-pointer p-2 hover:rounded-2xl my-2'
+                            className='w-full border border-gray-300 bg-transparent  outline-none p-2 text-white text-sm hover:rounded-xl cursor-pointer'
                             style={{ transition: "1s all ease" }}
                             value={loading ? 'Loading...' : 'Register'}
                             disabled={loading}
@@ -237,10 +87,10 @@ const Register = () => {
                 </form>
 
                 <div className='flex gap-3 items-center justify-center p-2 mt-5 cursor-pointer rounded hover:rounded-xl border border-gray-300 bg-white'
-                     onClick={async () => {
-                         await googleSignIn();
-                         navigate('/');
-                     }}>
+                    onClick={async () => {
+                        await googleSignIn();
+                        navigate('/');
+                    }}>
                     <div>
                         <FcGoogle className='text-2xl' />
                     </div>
@@ -249,7 +99,7 @@ const Register = () => {
                     </div>
                 </div>
 
-                <div className='text-sm my-7 text-center flex justify-center gap-3'>
+                <div className=' text-sm text-white my-7 text-center flex justify-center gap-3'>
                     <div>Already have an account?</div>
                     <div>
                         <Link to="/login" className='font-semibold hover:underline'>Login Account</Link>

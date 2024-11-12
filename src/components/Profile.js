@@ -14,7 +14,6 @@ const Profile = () => {
     }, [navigate]);
 
     const handleLogout = () => {
-        // Call the logout function
         localStorage.removeItem('token');
         navigate('/login');
     }
