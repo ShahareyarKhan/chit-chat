@@ -7,6 +7,7 @@ import { format, isSameDay, subDays } from 'date-fns';
 import io from 'socket.io-client';
 import { MdCopyAll, MdDelete } from "react-icons/md";
 import { LuTimer } from "react-icons/lu";
+import { MdTranslate } from "react-icons/md";
 
 // Create a socket instance
 const socket = io("http://localhost:5000", {
@@ -34,8 +35,8 @@ const ChatSection = (props) => {
     const [typingMessage, setTypingMessage] = useState('');
     const [friendOnline, setFriendOnline] = useState(false);
     const messagesEndRef = useRef(null);
-    const [selectedLanguage, setSelectedLanguage] = useState("en");
     const [scrollToBottom, setScrollToBottom] = useState(true);
+    const [translatedMessages, setTranslatedMessages] = useState({}); // Tracks translated versions of messages
 
     useEffect(() => {
         if (friendId && friends.length) {
@@ -186,7 +187,7 @@ const ChatSection = (props) => {
                 },
                 body: new URLSearchParams({
                     q: message,
-                    target: selectedLanguage
+                    target: "en"
                 })
             });
 
@@ -198,14 +199,32 @@ const ChatSection = (props) => {
         }
     };
 
+    // const handleTranslateMessage = async (message) => {
+    //     // const message = messages.find(msg => msg._id === messageId);
+    //     const translatedContent = await translateMessage(message);
+    //     alert(`Translated Text: ${translatedContent}`);
+    // };
+
+    const handleTranslateMessage = async (messageId, content) => {
+        if (translatedMessages[messageId]) {
+            // Toggle to original if already translated
+            setTranslatedMessages(prev => ({ ...prev, [messageId]: null }));
+        } else {
+            // Translate message content (use an actual translation API here)
+            const translatedText = await translateMessage(content);
+            setTranslatedMessages(prev => ({ ...prev, [messageId]: translatedText }));
+        }
+    };
+
+
 
     const handleSendMessage = async () => {
         if (newMessage.trim()) {
-            const translatedMessage = await translateMessage(newMessage);
+            // const translatedMessage = await translateMessage(newMessage);
             const message = {
                 senderId: user._id,
                 receiverId: friend._id,
-                content: translatedMessage
+                content: newMessage
             };
 
             try {
@@ -250,6 +269,7 @@ const ChatSection = (props) => {
         }
     };
 
+
     const renderMessagesWithDates = () => {
         let lastMessageDate = null;
 
@@ -261,17 +281,36 @@ const ChatSection = (props) => {
             return (
                 <div key={index} className='' >
                     {isNewDay && (
-                        <div className={`text-center text-[10px]   text-black p-1 rounded w-[200px] mx-auto  my-2 ${mode === 'light' ? 'bg-white text-black' : 'text-white bg-black'}`}>
+                        <div className={`text-center text-[10px] text-black p-1 rounded w-[200px] mx-auto my-2 ${mode === 'light' ? 'bg-white' : 'bg-black text-white'}`}>
                             {getFormattedDate(messageDate)}
                         </div>
                     )}
+
                     <div className={`mb-1 relative ${msg.senderId === user._id ? 'text-right' : 'text-left'}`}>
-                        <div className={`inline-block relative p-1 px-3 text-sm  max-w-[50%] break-words ${msg.senderId === user._id ? `${mode === "light" ? "bg-[#8e9292]" : "bg-white text-black"} rounded-l-xl rounded-b-xl` : `${mode === "light" ? "bg-[#b3b7bb]" : "bg-gray-400 text-black"} rounded-r-xl rounded-b-xl`} ${contextMenu.messageId === msg._id ? ' opacity-50' : ''}`} onContextMenu={(e) => handleContextMenu(e, msg._id, msg.senderId)} onClick={(e) => handleContextMenu(e, msg._id, msg.senderId)}>
-                            <div className='text-left '>
-                                {msg.content}
-                                <div className={`flex m-0 items-center text-[10px]  ${msg.senderId === user._id ? ' justify-end' : 'justify-start'}`}>
+                        <div
+                            className={`inline-block relative p-1 px-3 text-sm max-w-[50%] break-words ${msg.senderId === user._id ? `${mode === "light" ? "bg-[#8e9292]" : "bg-white text-black"} rounded-l-xl rounded-b-xl` : `${mode === "light" ? "bg-[#b3b7bb]" : "bg-gray-400 text-black"} rounded-r-xl rounded-b-xl`}`}
+                            onContextMenu={(e) => handleContextMenu(e, msg._id, msg.senderId)}
+                        >
+                            <div className='text-left'>
+                                {translatedMessages[msg._id] ? translatedMessages[msg._id] : msg.content}
+
+
+
+                                <div className={`flex  items-center text-[10px] ${msg.senderId === user._id ? 'justify-end' : 'justify-start'}`}>
                                     {format(messageDate, 'hh:mm a')}
                                 </div>
+                            </div>
+
+                            <div className={`absolute w-[200px] bottom-1  text-[10px] ${msg.senderId === user._id ? "right-[110%]" : "left-[110%]"}`}>
+                                {translatedMessages[msg._id] ? (
+                                    <span onClick={() => handleTranslateMessage(msg._id, msg.content)} className="cursor-pointer ">
+                                        See Original
+                                    </span>
+                                ) : (
+                                    <span onClick={() => handleTranslateMessage(msg._id, msg.content)} className=" cursor-pointer ">
+                                        See Translation
+                                    </span>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -318,6 +357,7 @@ const ChatSection = (props) => {
 
             </div>
 
+            {/* Onclick any message  */}
             {contextMenu.visible && (
                 <div
                     ref={contextMenuRef}
@@ -325,22 +365,17 @@ const ChatSection = (props) => {
                     style={{ top: contextMenu.y, left: contextMenu.x }}
                 >
                     {contextMenu.type === "user" && (
-                        <>
-                            <div onClick={() => handleCopyMessage(messages.find(msg => msg._id === contextMenu.messageId)?.content)} className="cursor-pointer">
-                                <MdCopyAll />
-                            </div>
-                            <div onClick={() => handleDeleteMessage(contextMenu.messageId)} className="cursor-pointer">
-                                <MdDelete />
-                            </div>
-                        </>
-                    )}
-                    {contextMenu.type === "not user" && (
-                        <div onClick={() => handleCopyMessage(messages.find(msg => msg._id === contextMenu.messageId)?.content)} className="cursor-pointer">
-                            <MdCopyAll />
+
+                        <div onClick={() => handleDeleteMessage(contextMenu.messageId)} className="cursor-pointer">
+                            <MdDelete />
                         </div>
                     )}
+                    <div onClick={() => handleCopyMessage(messages.find(msg => msg._id === contextMenu.messageId)?.content)} className="cursor-pointer">
+                        <MdCopyAll />
+                    </div>
                 </div>
             )}
+
 
             <div className='w-full  flex justify-center '>
                 <div className='fixed bottom-[70px] p-1  hover:shadow-xl z-50 rounded-full cursor-pointer' onClick={() => {
@@ -350,6 +385,7 @@ const ChatSection = (props) => {
                     <BiSolidArrowToBottom className='text-xl' />
                 </div>
             </div>
+            
             <div className="flex-1 px-4 p-2 overflow-auto "
                 onScroll={(e) => {
                     if (e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight) {
@@ -370,10 +406,10 @@ const ChatSection = (props) => {
             </div>
             <div className={`p-1 w-full  bottom-0 ${mode === "light" ? "bg-[#ffffff] text-black" : "bg-[#000] text-white"} z-50`}>
 
-                <div className="flex items-center gap-4">
+                <div className="flex items-center  ">
                     <input
                         type="text"
-                        className={`flex-1 p-3  outline-none rounded-md ${mode === "light" ? "bg-white" : "bg-black"} `}
+                        className={`flex w-full p-3  outline-none rounded-md ${mode === "light" ? "bg-white" : "bg-black"} `}
                         placeholder="Type a message..."
                         value={newMessage}
                         onChange={(e) => {
@@ -393,21 +429,7 @@ const ChatSection = (props) => {
                             }
                         }}
                     />
-                    <div className="flex items-center text-xs">
-                        <select
-                            value={selectedLanguage}
-                            onChange={(e) => setSelectedLanguage(e.target.value)}
-                            className=" rounded-md"
-                        >
-                            <option value="en">English</option>
-                            <option value="es">Spanish</option>
-                            <option value="fr">French</option>
-                            <option value="hi">Hindi</option>
-                            <option value="ur">Urdu</option>
-                            <option value="ar">Arabic</option>
-                            {/* Add more language options as needed */}
-                        </select>
-                    </div>
+
 
                     <button
                         onClick={handleSendMessage}
