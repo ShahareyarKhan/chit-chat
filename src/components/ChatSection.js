@@ -13,7 +13,7 @@ const socket = io("http://localhost:5000", {
     // transports: ['websocket', 'polling'],
     transports: ['websocket'],
     withCredentials: true,
-   
+
 });
 
 socket.on('connect', () => {
@@ -34,6 +34,7 @@ const ChatSection = (props) => {
     const [typingMessage, setTypingMessage] = useState('');
     const [friendOnline, setFriendOnline] = useState(false);
     const messagesEndRef = useRef(null);
+    const [selectedLanguage, setSelectedLanguage] = useState("en");
     const [scrollToBottom, setScrollToBottom] = useState(true);
 
     useEffect(() => {
@@ -173,12 +174,38 @@ const ChatSection = (props) => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
 
+    const translateMessage = async (message) => {
+        try {
+            const response = await fetch(`https://google-translate1.p.rapidapi.com/language/translate/v2`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Accept-Encoding': 'application/gzip',
+                    'X-RapidAPI-Key': '0bb74e0b4cmsh8c0866c686e9ba5p14b4f3jsn2c0b22718511',  // Replace with your actual RapidAPI key
+                    'X-RapidAPI-Host': 'google-translate1.p.rapidapi.com'
+                },
+                body: new URLSearchParams({
+                    q: message,
+                    target: selectedLanguage
+                })
+            });
+
+            const data = await response.json();
+            return data.data.translations[0].translatedText;
+        } catch (error) {
+            console.error('Translation error:', error);
+            return message; // If translation fails, return original message
+        }
+    };
+
+
     const handleSendMessage = async () => {
         if (newMessage.trim()) {
+            const translatedMessage = await translateMessage(newMessage);
             const message = {
                 senderId: user._id,
                 receiverId: friend._id,
-                content: newMessage
+                content: translatedMessage
             };
 
             try {
@@ -209,7 +236,7 @@ const ChatSection = (props) => {
             }
         }
     };
-    
+
     const getFormattedDate = (date) => {
         const today = new Date();
         const yesterday = subDays(today, 1);
@@ -239,7 +266,7 @@ const ChatSection = (props) => {
                         </div>
                     )}
                     <div className={`mb-1 relative ${msg.senderId === user._id ? 'text-right' : 'text-left'}`}>
-                        <div className={`inline-block relative p-1 px-3 text-sm  max-w-[50%] break-words ${msg.senderId === user._id ? `${mode==="light"?"bg-[#8e9292]":"bg-white text-black"} rounded-l-xl rounded-b-xl` : `${mode==="light"?"bg-[#b3b7bb]":"bg-gray-400 text-black"} rounded-r-xl rounded-b-xl`} ${contextMenu.messageId === msg._id ? ' opacity-50' : ''}`} onContextMenu={(e) => handleContextMenu(e, msg._id, msg.senderId)} onClick={(e) => handleContextMenu(e, msg._id, msg.senderId)}>
+                        <div className={`inline-block relative p-1 px-3 text-sm  max-w-[50%] break-words ${msg.senderId === user._id ? `${mode === "light" ? "bg-[#8e9292]" : "bg-white text-black"} rounded-l-xl rounded-b-xl` : `${mode === "light" ? "bg-[#b3b7bb]" : "bg-gray-400 text-black"} rounded-r-xl rounded-b-xl`} ${contextMenu.messageId === msg._id ? ' opacity-50' : ''}`} onContextMenu={(e) => handleContextMenu(e, msg._id, msg.senderId)} onClick={(e) => handleContextMenu(e, msg._id, msg.senderId)}>
                             <div className='text-left '>
                                 {msg.content}
                                 <div className={`flex m-0 items-center text-[10px]  ${msg.senderId === user._id ? ' justify-end' : 'justify-start'}`}>
@@ -256,6 +283,10 @@ const ChatSection = (props) => {
     if (!friend) {
         return <div>Loading...</div>;
     }
+
+
+
+
 
     return (
         <div className={`flex flex-col h-screen w-full chatsection ${mode === 'light' ? 'bg-[#c3c6c6] text-black' : 'bg-[#02020c] text-white'}`} >
@@ -337,11 +368,12 @@ const ChatSection = (props) => {
                     </div>
                 )}
             </div>
-            <div className={`p-1 w-full  bottom-0 ${mode==="light"?"bg-[#ffffff] text-black":"bg-[#000] text-white"} z-50`}>
+            <div className={`p-1 w-full  bottom-0 ${mode === "light" ? "bg-[#ffffff] text-black" : "bg-[#000] text-white"} z-50`}>
+
                 <div className="flex items-center gap-4">
                     <input
                         type="text"
-                        className={`flex-1 p-3  outline-none rounded-md ${mode==="light"?"bg-white":"bg-black"} `}
+                        className={`flex-1 p-3  outline-none rounded-md ${mode === "light" ? "bg-white" : "bg-black"} `}
                         placeholder="Type a message..."
                         value={newMessage}
                         onChange={(e) => {
@@ -361,13 +393,27 @@ const ChatSection = (props) => {
                             }
                         }}
                     />
-                    <LuTimer className={`text-2xl ${mode==="light"?"text-green-400":"text-blue-400"}`} />
-                    <IoAttach className={`text-2xl ${mode==="light"?"text-green-400":"text-blue-400"}`} />
+                    <div className="flex items-center text-xs">
+                        <select
+                            value={selectedLanguage}
+                            onChange={(e) => setSelectedLanguage(e.target.value)}
+                            className=" rounded-md"
+                        >
+                            <option value="en">English</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="hi">Hindi</option>
+                            <option value="ur">Urdu</option>
+                            <option value="ar">Arabic</option>
+                            {/* Add more language options as needed */}
+                        </select>
+                    </div>
+
                     <button
                         onClick={handleSendMessage}
                         className="  text-white p-2 "
                     >
-                        <IoSend className={`text-2xl ${mode==="light"?"text-green-400":"text-blue-400"}`} />
+                        <IoSend className={`text-2xl ${mode === "light" ? "text-green-400" : "text-blue-400"}`} />
                     </button>
 
                 </div>
