@@ -361,10 +361,10 @@ const ChatSection = (props) => {
                 {renderMessagesWithDates()}
                 <div ref={messagesEndRef} />
                 {typingMessage && (
-                    <div className='fixed   p-3 bottom-14 typing-wave text-xs rounded-full flex gap-5 my-1'>
-                        <div className='typing-dot'></div>
-                        <div className='typing-dot'></div>
-                        <div className='typing-dot'></div>
+                    <div className={`fixed   p-3 bottom-14 typing-wave text-xs rounded-full flex gap-7 my-1 `}>
+                        <div className={`typing-dot ${mode === "light" ? "bg-[#000000] text-white" : "bg-[#fff] text-black"}`}></div>
+                        <div className={`typing-dot ${mode === "light" ? "bg-[#000000] text-white" : "bg-[#fff] text-black"}`}></div>
+                        <div className={`typing-dot ${mode === "light" ? "bg-[#000000] text-white" : "bg-[#fff] text-black"}`}></div>
                     </div>
                 )}
             </div>
