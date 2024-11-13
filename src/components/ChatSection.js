@@ -301,13 +301,13 @@ const ChatSection = (props) => {
                                 </div>
                             </div>
 
-                            <div className={`absolute w-[200px] bottom-1  text-[10px] ${msg.senderId === user._id ? "right-[110%]" : "left-[110%]"}`}>
+                            <div className={`absolute w-[200px] bottom-1  text-[10px] ${msg.senderId === user._id ? "right-[110%]" : "left-[110%]"} ${mode === "light" ? "text-gray-500" : "text-gray-400"}`}>
                                 {translatedMessages[msg._id] ? (
-                                    <span onClick={() => handleTranslateMessage(msg._id, msg.content)} className="cursor-pointer ">
+                                    <span onClick={() => handleTranslateMessage(msg._id, msg.content)} className="cursor-pointer hover:underline ">
                                         See Original
                                     </span>
                                 ) : (
-                                    <span onClick={() => handleTranslateMessage(msg._id, msg.content)} className=" cursor-pointer ">
+                                    <span onClick={() => handleTranslateMessage(msg._id, msg.content)} className=" cursor-pointer hover:underline ">
                                         See Translation
                                     </span>
                                 )}
@@ -385,7 +385,7 @@ const ChatSection = (props) => {
                     <BiSolidArrowToBottom className='text-xl' />
                 </div>
             </div>
-            
+
             <div className="flex-1 px-4 p-2 overflow-auto "
                 onScroll={(e) => {
                     if (e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight) {
