@@ -5,7 +5,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import { MdDelete } from "react-icons/md";
 import { UserContext } from '../context/UserContext'; // Assuming mode is in context
 
-const genAI = new GoogleGenerativeAI("AIzaSyAPMXpo85GlPN-gAcmqkidHH74iZFBN5v4");
+const genAI = new GoogleGenerativeAI("");
 
 const ChatAI = () => {
     const { mode, setMode } = useContext(UserContext); // Access mode from context
