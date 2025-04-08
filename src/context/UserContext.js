@@ -30,8 +30,6 @@ export const UserProvider = ({ children }) => {
 
     const url="https://chit-chat-api-lilac.vercel.app"
 
-    // const url="http://localhost:5000"
-
     useEffect(() => {
         if (user) {
             fetchFriends(user._id);
